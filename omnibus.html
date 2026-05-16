@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The JPSME Electoral Code | Official Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- REGAL CSS VARIABLES --- */
+        :root {
+            --regal-navy: #0A1128; 
+            --royal-blue: #1C2D5A; 
+            --gold-accent: #D4AF37; 
+            --gold-light: #F3E5AB; 
+            --white: #FFFFFF;
+            --off-white: #F8F9FA;
+            --muted-blue: #8aa1d6;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--regal-navy);
+            color: var(--off-white);
+            line-height: 1.7;
+            background-image: radial-gradient(circle at 50% 0%, #15234b 0%, var(--regal-navy) 70%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4, .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- NAVIGATION BAR --- */
+        nav {
+            background-color: rgba(10, 17, 40, 0.95);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 1.4rem;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .logo span {
+            color: var(--gold-accent);
+        }
+        .nav-links a {
+            color: var(--gold-light);
+            margin-left: 2.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--gold-accent);
+        }
+
+        /* --- DOCUMENT CONTAINER --- */
+        .document-wrapper {
+            max-width: 1000px;
+            width: 90%;
+            margin: 4rem auto;
+            background-color: var(--royal-blue);
+            padding: 5rem 6rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            position: relative;
+            flex: 1;
+        }
+        /* Inner gold border for official look */
+        .document-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            pointer-events: none;
+        }
+
+        /* --- DOCUMENT HEADER --- */
+        .doc-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        .doc-header h1 {
+            font-size: 2.5rem;
+            color: var(--gold-accent);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        .doc-header h2 {
+            font-size: 1.2rem;
+            color: var(--white);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* --- ARTICLES & SECTIONS --- */
+        .article-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 4rem 0 2rem 0;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 1rem 0;
+            position: relative;
+            z-index: 2;
+        }
+        .section-block {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+            text-align: justify;
+        }
+        .section-num {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold-accent);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 0.5rem;
+        }
+        .section-text {
+            color: #b4c1e0;
+            font-size: 1.05rem;
+            display: inline;
+        }
+        
+        /* Lists inside sections */
+        .doc-list {
+            list-style-type: lower-alpha;
+            margin-left: 3rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            color: #b4c1e0;
+            font-size: 1.05rem;
+            position: relative;
+            z-index: 2;
+        }
+        .doc-list li {
+            margin-bottom: 0.8rem;
+            text-align: justify;
+            padding-left: 0.5rem;
+        }
+        .doc-list strong {
+            color: var(--white);
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background-color: #060a17;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 0.85rem;
+            color: var(--muted-blue);
+        }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 1rem; }
+            .nav-links a { margin: 0 0.5rem; }
+            .document-wrapper { padding: 3rem 1.5rem; }
+            .doc-header h1 { font-size: 1.8rem; }
+            .article-title { font-size: 1.4rem; }
+            .doc-list { margin-left: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">JPSME <span>COMELEC</span></div>
+        <div class="nav-links">
+            <a href="index.html">Return to Portal</a>
+        </div>
+    </nav>
+
+    <main class="document-wrapper">
+        
+        <div class="doc-header">
+            <h1>Omnibus Election Code</h1>
+            <h2>JPSME Commission on Elections</h2>
+        </div>
+
+        <h3 class="article-title">Article I: General Provisions</h3>
+        
+        <div class="section-block">
+            <span class="section-num">Section 1. Title.</span> 
+            <span class="section-text">This body of rules and regulations shall be officially known, cited, and referred to in all formal proceedings as "The JPSME Electoral Code." [cite: 46]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 2. Authority.</span> 
+            <span class="section-text">The JPSME Commission on Elections (COMELEC) is hereby established as the independent and sole administrative body tasked with the absolute enforcement and administration of all laws and regulations relative to the conduct of any election within the organization. [cite: 47]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 3. Objectives.</span> 
+            <span class="section-text">The primary and overriding objective of this Code is to provide a comprehensive framework to ensure that the collective will of the student body is expressed through a free, orderly, honest, and credible electoral process. [cite: 48]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 4. Scope.</span> 
+            <span class="section-text">The provisions of this Code shall apply to all bona fide members of JPSME, as well as all candidates vying for any elective position within the Executive Board of the organization. [cite: 49]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 5. Independence.</span> 
+            <span class="section-text">The Commission shall at all times remain an independent and non-partisan body; consequently, no member of the Commission shall be permitted to endorse, support, campaign for, or manifest any form of bias toward any candidate. [cite: 50, 51]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 6. Definition of Terms.</span>
+            <ul class="doc-list" style="list-style-type: disc;">
+                <li><strong>"Commission"</strong> shall refer specifically to the JPSME COMELEC and its total pool of appointed officers tasked with election duties. [cite: 53]</li>
+                <li><strong>"Candidate"</strong> shall refer to any bona fide member of the organization who has formally filed a Certificate of Candidacy and has been cleared by the Commission. [cite: 54]</li>
+                <li><strong>"Voter"</strong> shall refer to any student who is officially enrolled in the Mechanical Engineering program and is a registered member of the JPSME in good standing. [cite: 55]</li>
+            </ul>
+        </div>
+
+        <h3 class="article-title">Article II: The Commission on Elections</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 7. Composition and Internal Organization.</span> 
+            <span class="section-text">The Commission shall be led by the Chairman, who possesses the sole authority to designate the specific roles, duties, and assignments of the Commission members, upon the member's approval, to ensure operational efficiency. [cite: 57, 58]</span>
+            <ul class="doc-list">
+                <li><strong>Discretionary Appointment:</strong> The Chairman shall have the full power to compose and activate the working units of the Commission including but not limited to the Secretariat, Screening, Multimedia, and Technical units based on the dynamic needs of the election cycle and the actual availability of the members. [cite: 59]</li>
+                <li><strong>Structural Flexibility:</strong> The Chairman maintains the right to reassign members to different positions or merge various departmental functions at any time to ensure the continuous and unhindered operation of the electoral process. [cite: 60]</li>
+                <li><strong>Acting Officers:</strong> In the event of an absence of any designated officer, the Chairman may appoint an "Acting" officer from among the present members to perform necessary duties for a specific session, task, or emergency. [cite: 61]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 8. Powers and Functions.</span> 
+            <span class="section-text">The Commission shall be vested with the power to enforce and administer all rules provided in this Code, exercise exclusive jurisdiction over all contests relating to election returns and candidate qualifications, and deputize any member of the organization to ensure the peaceful and orderly conduct of the election. [cite: 62]</span>
+        </div>
+
+        <h3 class="article-title">Article III: The Election Calendar</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 9. Power to Fix Schedule.</span> 
+            <span class="section-text">The Commission, acting through the Chairman, shall have the exclusive power to formulate, finalize, and publish the Official Election Calendar, which shall dictate the deadlines for the filing of Certificates of Candidacy, the verification of the official list of candidates, the duration of the campaign period, the conduct of the "Miting de Avance," and the final casting of votes. [cite: 64]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 10. Mandatory Publication.</span> 
+            <span class="section-text">No official election activity or phase shall commence until the Official Election Calendar has been formally published or announced to the student body through official channels, which shall then serve as constructive notice to all members of JPSME. [cite: 65]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 11. Adjustment of Dates.</span> 
+            <span class="section-text">The Commission, by a majority vote in cases of emergency—such as class suspensions, technical failures, or force majeure—may adjust the dates in the calendar to ensure that no member is disenfranchised or denied their right to participate. [cite: 66]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 12. Finality of Deadlines.</span> 
+            <span class="section-text">All deadlines established within the Official Election Calendar are considered final and peremptory; therefore, failure to comply with a deadline, such as the filing of a COC, shall result in the automatic forfeiture of the right to participate in that specific phase of the election. [cite: 67, 68]</span>
+        </div>
+
+        <h3 class="article-title">Article IV: Candidacy and Qualifications</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 13. Certificate of Candidacy (COC).</span> 
+            <span class="section-text">No person shall be considered a valid candidate or be eligible for election unless they file a formal, sworn COC within the strict timeframe fixed by the Commission. [cite: 70]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 14. Qualifications.</span> 
+            <span class="section-text">All candidates must be bona fide students of the Mechanical Engineering Department, active members of JPSME in good standing, and entirely free from any major disciplinary record or academic probation as verified by the Commission. [cite: 71]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 15. Contents and Format of the Certificate of Candidacy.</span> 
+            <span class="section-text">The COC must contain specific information, including: [cite: 72]</span>
+            <ul class="doc-list">
+                <li>Full name, age, civil status, and residence. [cite: 73]</li>
+                <li>The position for which the candidate is running. [cite: 74]</li>
+                <li>A statement that the candidate is eligible for the office sought. [cite: 75]</li>
+                <li>An undertaking to support and defend the Constitution and to fulfill the duties of the office if elected. [cite: 76]</li>
+            </ul>
+            <span class="section-text">The physical and digital format of the COC shall be provided exclusively by the Commission to ensure uniformity and legal compliance; no other forms shall be recognized as valid for the filing of candidacy. [cite: 77, 78]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 16. Period for Filing.</span> 
+            <span class="section-text">The Commission shall establish a fixed period for the filing of candidacies, and no COC shall be accepted beyond the declared deadline unless a formal extension is explicitly granted and announced by the Chairman. [cite: 79]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 17. Verification.</span> 
+            <span class="section-text">The Commissioners on Screening shall have the power to motu proprio (on their own) disqualify any candidate who fails to meet the established requirements or is found to have submitted fraudulent or misleading documentation. [cite: 80]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 18. Withdrawal.</span> 
+            <span class="section-text">Any candidate may choose to withdraw their candidacy by submitting a written and signed statement of withdrawal to the Secretary at any time prior to the official commencement of the casting of votes. [cite: 81]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 19. Vacancy of Nominees.</span> 
+            <span class="section-text">In the event that no member files a COC for a specific elective position by the end of the designated filing period, the Commission shall officially declare a "Failure of Candidacy" for that particular office. [cite: 82]</span>
+        </div>
+
+        <h3 class="article-title">Article V: Campaign and Propaganda</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 20. Campaign Period.</span> 
+            <span class="section-text">The specific window for campaigning shall be determined solely by the Commission, and any campaigning conducted outside of this authorized period shall be considered a grave violation and grounds for immediate disqualification. [cite: 84]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 21. Prohibited Campaigning.</span> 
+            <span class="section-text">To maintain the solemnity of the democratic process, no campaign activities of any kind shall be allowed on the day of the election or within the immediate vicinity of the polling areas. [cite: 85]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 22. Equality of Space.</span> 
+            <span class="section-text">The Multimedia Team shall be responsible for ensuring that all candidates are provided with equal exposure on official JPSME digital platforms, ensuring that no candidate receives preferential treatment regarding graphic layouts, posting frequency, or visibility. [cite: 86]</span>
+        </div>
+
+        <h3 class="article-title">Article VI: The Electoral Process</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 23. Secret Ballot and Voting Integrity.</span> 
+            <span class="section-text">The election shall be conducted through a secret ballot system, whether physical or digital, ensuring that the identity of every voter and the content of their vote shall remain strictly confidential at all times. [cite: 88]</span>
+            <ul class="doc-list">
+                <li><strong>One Voter-One Vote Principle.</strong> Each qualified voter shall be entitled to cast only one (1) vote for every elective position, and any attempt to vote multiple times shall constitute an invalid vote. [cite: 89]</li>
+                <li><strong>Authentication Measures.</strong> The Technical Team shall implement appropriate verification mechanisms to confirm voter eligibility prior to the casting of ballots and to prevent unauthorized participation. [cite: 90]</li>
+                <li><strong>Confidentiality of Votes.</strong> No Commissioner, candidate, watcher, or member of the organization shall attempt to identify, trace, or disclose the voting preference of any voter. [cite: 91]</li>
+                <li><strong>System Security.</strong> In the case of digital elections, the Commission shall ensure that the voting platform maintains reasonable safeguards against data manipulation, duplication of votes, or unauthorized access. [cite: 92]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 24. Unopposed Candidates.</span> 
+            <span class="section-text">In the event that only one (1) candidate files a valid Certificate of Candidacy for a particular elective position, the following rules shall apply: [cite: 93]</span>
+            <ul class="doc-list">
+                <li><strong>Mandatory Vote of Confidence:</strong> The candidate shall not be automatically proclaimed; instead, they must undergo a "Yes" or "No" vote during the scheduled election period. [cite: 94, 95]</li>
+                <li><strong>Required Threshold:</strong> To be proclaimed the winner, an unopposed candidate must obtain a simple majority (50% + 1) of the total "Yes" and "No" votes cast for that specific position. [cite: 96]</li>
+                <li><strong>Failure to Meet Threshold:</strong> If the candidate fails to secure the required majority of "Yes" votes, the Commission shall declare a "Failure of Election" for that specific position, and the office shall be filled through the Appointment Process as stipulated in Section 49. [cite: 97]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 25. Watchers.</span> 
+            <span class="section-text">Every candidate shall be entitled to designate one (1) official watcher who shall be permitted to observe the tabulation and verification of results conducted by the Technical Team to ensure total transparency. [cite: 98]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 26. Canvassing.</span> 
+            <span class="section-text">The Chairman, the Secretary, and the Technical Team shall collectively serve as the Board of Canvassers, tasked with tallying the votes and certifying the accuracy of the final results before any announcement. [cite: 99]</span>
+        </div>
+
+        <h3 class="article-title">Article VII: Prohibited Acts and Penalties</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 27. Fair Play.</span> 
+            <span class="section-text">All candidates and their supporters are mandated to conduct themselves with the utmost dignity, professional courtesy, and respect toward their fellow students and the Commission. [cite: 101]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 28. Campaign Ethics.</span> 
+            <ul class="doc-list">
+                <li><strong>Prohibited Acts:</strong> The dissemination of libelous statements, the engagement in personal attacks, and the intentional destruction of an opponent's campaign materials are strictly prohibited and shall be met with severe disciplinary action. [cite: 103]</li>
+                <li><strong>Neutrality of Facilities:</strong> No candidate shall be permitted to utilize official organization resources, funds, or equipment for personal campaign gains or advantages. [cite: 104]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 29. Electoral Fraud.</span> 
+            <span class="section-text">Any attempt to manipulate the voting system, engage in double-voting, or coerce members into voting for a specific candidate shall result in immediate disqualification. [cite: 105]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 30. Electoral Offenses.</span> 
+            <span class="section-text">The Commission classifies the following as grave offenses: [cite: 106]</span>
+            <ul class="doc-list">
+                <li><strong>Vote Buying:</strong> The act of offering any form of incentive, monetary or otherwise, in exchange for a vote. [cite: 107]</li>
+                <li><strong>Coercion:</strong> Intimidating or threatening any voter or member of the Commission to influence the outcome of the election. [cite: 108]</li>
+                <li><strong>Digital Sabotage:</strong> Any attempt to hack, disrupt, or compromise the integrity of the digital voting platforms or Commission databases. [cite: 109]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 31. Disqualification and Sanctions.</span> 
+            <span class="section-text">The Commission, by a majority vote of its members, may disqualify a candidate for grave violations of this Code; furthermore, any person found guilty of an electoral offense may be barred from running in any future JPSME elections. [cite: 110, 111]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 32. Notice and Hearing.</span> 
+            <span class="section-text">No candidate shall be disqualified without due process. The Commission shall issue a written notice specifying the alleged violation and shall provide the candidate a reasonable opportunity to respond. [cite: 112, 113]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 33. Decision.</span> 
+            <span class="section-text">Any resolution imposing disqualification shall be supported by factual findings and approved by a majority vote of the Commission. [cite: 114]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 34. Election Silence.</span> 
+            <span class="section-text">On the designated election day, no person shall be allowed to engage in any form of campaigning within the designated physical voting area or through any official digital communication channels of the organization. [cite: 115]</span>
+        </div>
+
+        <h3 class="article-title">Article VIII: Proclamation</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 35. Finality of Results.</span> 
+            <span class="section-text">The results generated by the Technical Team and verified by the Board of Canvassers are considered final and binding once the Chairman formally signs the Certificate of Canvass. [cite: 117]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 36. Tie-Breaking.</span> 
+            <span class="section-text">In the event of an exact tie between two (2) or more candidates after the official canvassing of votes, the Commission shall resolve the deadlock through a public and transparent tie-breaking procedure. [cite: 118]</span>
+            <ul class="doc-list">
+                <li>The tie-breaking shall be conducted through a Toss of a Coin or Draw of Lots, as determined by the Commission. [cite: 119]</li>
+                <li>The procedure shall be conducted in the presence of the concerned candidates or their authorized representatives, the Commission members, and at least two (2) neutral witnesses. [cite: 120]</li>
+                <li>The entire proceeding shall be documented through written minutes and, when feasible, audiovisual recording. [cite: 121]</li>
+                <li>The result of the tie-breaking procedure shall immediately form part of the official election record. [cite: 122]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 37. Official Proclamation.</span> 
+            <span class="section-text">The proclamation of winning candidates shall be the formal act by which the Commission on Elections officially declares the duly elected officers of the organization following the completion of canvassing and verification of election results. [cite: 123]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 38. Preconditions for Proclamation.</span> 
+            <span class="section-text">No proclamation shall be made unless the following conditions have been satisfied: [cite: 124]</span>
+            <ul class="doc-list">
+                <li>All votes have been completely canvassed and tabulated by the Board of Canvassers; [cite: 125]</li>
+                <li>The accuracy and integrity of the results have been verified by the Commission; [cite: 126]</li>
+                <li>All election returns and digital records have been reviewed for discrepancies or irregularities; and [cite: 127]</li>
+                <li>No pending incident, complaint, or verified irregularity exists that may materially affect the outcome of the election. [cite: 128]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 39. Timing of Proclamation.</span> 
+            <span class="section-text">The proclamation shall be conducted within a reasonable period after the completion of canvassing, preferably on the same day of the election or at the earliest practicable time thereafter as determined by the Commission. [cite: 129]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 40. Manner of Proclamation.</span> 
+            <span class="section-text">The proclamation of winning candidates shall be effected through the official posting of the certified election results on the authorized communication platforms of the organization, as determined by the Commission. [cite: 130]</span>
+            <ul class="doc-list">
+                <li>The official posting shall contain the names of all candidates and the total number of votes obtained by each, for purposes of transparency and accountability. [cite: 131]</li>
+                <li>The publication of the certified results by the Commission shall constitute the formal act of proclamation. [cite: 132]</li>
+                <li>The date and time of posting shall be recorded by the Commission and shall serve as the official reference point for the commencement of the protest period and the finality of election results. [cite: 133]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 41. Effect of Proclamation.</span> 
+            <span class="section-text">The proclaimed candidates shall be considered Officers-Elect and shall assume office only upon the commencement of the official term or after the prescribed turnover ceremony of the organization. [cite: 134]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 42. Suspension of Proclamation.</span> 
+            <span class="section-text">The Commission may suspend proclamation when: [cite: 135]</span>
+            <ul class="doc-list">
+                <li>A verified election protest or complaint involving material irregularity has been timely filed; [cite: 136]</li>
+                <li>Evidence exists indicating possible electoral fraud affecting the results; or [cite: 137]</li>
+                <li>Circumstances arise that may invalidate the integrity of the canvassed votes. [cite: 138]</li>
+            </ul>
+            <span class="section-text">The Commission shall resolve such matters with dispatch prior to proceeding with proclamation. [cite: 139]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 43. Succession.</span> 
+            <span class="section-text">If a proclaimed winner cannot assume office, the candidate with the next highest number of votes (the runner-up) shall be proclaimed, provided they meet all qualifications. [cite: 140]</span>
+        </div>
+
+        <h3 class="article-title">Article IX: Protests</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 44. Election Protest.</span> 
+            <span class="section-text">Any member wishing to contest the results must file a formal, sworn petition with the Chairman within a strict period of twenty-four (24) hours following the official proclamation of the winners. [cite: 142]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 45. Contents of Protest.</span> 
+            <span class="section-text">The protest shall: [cite: 143]</span>
+            <ul class="doc-list">
+                <li>Be in writing and duly signed by the petitioner; [cite: 144]</li>
+                <li>Clearly state the grounds relied upon; [cite: 145]</li>
+                <li>Be supported by available evidence or sworn statements; and [cite: 146]</li>
+                <li>Specify the relief sought. [cite: 147]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 46. Due Process and Investigation.</span> 
+            <span class="section-text">Upon receipt of a valid protest, the Commission shall: [cite: 148]</span>
+            <ul class="doc-list">
+                <li>Provide written notice to all concerned parties; [cite: 149]</li>
+                <li>Allow respondents reasonable opportunity to submit explanations or counter-evidence; [cite: 150]</li>
+                <li>Conduct an impartial review, hearing, or investigation when necessary; and [cite: 151]</li>
+                <li>Preserve all election records relevant to the case. [cite: 152]</li>
+            </ul>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 47. Resolution Period.</span> 
+            <span class="section-text">The Commission shall resolve the protest within a reasonable period not exceeding five (5) academic days from the completion of fact-finding proceedings. [cite: 153]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 48. Final Determination.</span> 
+            <span class="section-text">The decision of the Commission, reached by majority vote, shall be reduced into writing and officially promulgated to the membership. [cite: 154] Such decision shall be final within the organizational level, without prejudice to review by the appropriate university authority when warranted. [cite: 155]</span>
+        </div>
+
+        <h3 class="article-title">Article X: Appointive Power</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 49. Appointive Authority.</span> 
+            <span class="section-text">Upon the conclusion of the general election and the formal proclamation of the winning President-elect, the power to fill any remaining vacant positions shall transition from the Commission to the incoming Executive Board. [cite: 157]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 50. Appointment Process.</span> 
+            <span class="section-text">The President-elect shall be granted the power to appoint a qualified member to fill a vacant position, provided that such an appointment is subject to the formal approval of the majority of the incoming Executive Board members. [cite: 158]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 51. Status of Appointees.</span> 
+            <span class="section-text">Any officer appointed through this process shall be vested with the same rights, duties, responsibilities, and privileges as an elected officer for the entire duration of the specified term. [cite: 159]</span>
+        </div>
+
+        <h3 class="article-title">Article XI: Transitory Provision</h3>
+
+        <div class="section-block">
+            <span class="section-num">Section 52. Effectivity.</span> 
+            <span class="section-text">This Omnibus Election Code shall take effect immediately upon its formal adoption and signing by the members of the JPSME COMELEC. [cite: 161]</span>
+        </div>
+        <div class="section-block">
+            <span class="section-num">Section 53. Transitory Clause.</span> 
+            <span class="section-text">All elections conducted after the adoption of this Code shall be governed exclusively by its provisions, and any prior inconsistent practices shall be deemed repealed or modified accordingly. [cite: 162]</span>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The JPSME Commission on Elections. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; font-family: 'Playfair Display', serif; font-style: italic;">Clean. Honest. Orderly.</p>
+    </footer>
+
+</body>
+</html>
