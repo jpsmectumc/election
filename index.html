@@ -29,6 +29,8 @@
             line-height: 1.6;
             background-image: radial-gradient(circle at 50% 0%, #15234b 0%, var(--regal-navy) 70%);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         h1, h2, h3, h4, .logo {
             font-family: 'Playfair Display', serif;
@@ -134,11 +136,12 @@
         /* --- REGAL ACTION CARDS --- */
         .container {
             max-width: 1100px;
-            margin: 4rem auto;
+            margin: 5rem auto;
             padding: 0 5%;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 3rem;
+            flex: 1; /* Pushes footer to the bottom */
         }
         .card {
             background-color: var(--royal-blue);
@@ -213,42 +216,6 @@
             pointer-events: none;
         }
 
-        /* --- OFFICIAL DECREES / ANNOUNCEMENTS --- */
-        .announcements {
-            max-width: 900px;
-            margin: 5rem auto;
-            padding: 0 5%;
-            text-align: center;
-        }
-        .announcements h3 {
-            color: var(--gold-accent);
-            font-size: 2rem;
-            margin-bottom: 2rem;
-        }
-        .bulletin-board {
-            background-color: var(--white);
-            color: var(--regal-navy);
-            padding: 3rem;
-            border-top: 5px solid var(--gold-accent);
-            text-align: left;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .date-tag {
-            font-family: 'Lato', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #555;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 0.5rem;
-        }
-        .bulletin-board h4 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
         /* --- FOOTER --- */
         footer {
             text-align: center;
@@ -278,10 +245,10 @@
         <p>Ensuring the integrity, order, and democratic process of the Junior Philippine Society of Mechanical Engineers.</p>
         
         <div class="timeline">
-            <div class="phase"><span>Phase</span> I. PREPARATION</div>
-            <div class="phase active"><span>Phase</span> II. FILING OF CANDIDACY</div>
-            <div class="phase"><span>Phase</span> III. CAMPAIGN PERIOD</div>
-            <div class="phase"><span>Phase</span> IV. ELECTION DAY</div>
+            <div class="phase"><span>Phase I</span> PREPARATION</div>
+            <div class="phase active"><span>Phase II</span> FILING OF CANDIDACY</div>
+            <div class="phase"><span>Phase III</span>CAMPAIGN PERIOD</div>
+            <div class="phase"><span>Phase IV</span>ELECTION DAY</div>
         </div>
     </header>
 
@@ -297,25 +264,15 @@
         <div class="card">
             <div class="card-icon">✉</div>
             <h2>For the Electorate</h2>
-            <p>Exercise your right to vote. Access to the official digital ballot requires verification of your institutional student email.</p>
+            <p>Exercise your right to vote. Access to the official digital ballot requires verification of your institutional student ID Number.</p>
             <a href="YOUR_BALLOT_FORM_LINK_HERE" target="_blank" class="btn disabled">Ballots Secured</a>
         </div>
 
     </main>
 
-    <section class="announcements">
-        <h3>Official Decrees & Notices</h3>
-        <div class="bulletin-board">
-            <div class="date-tag">Issued: May 16, 2026 | Status: Active</div>
-            <h4>Commencement of Candidate Filing</h4>
-            <p style="color: #333; font-size: 1rem; line-height: 1.8;">
-                The Commission on Elections officially declares the filing period open. Prospective candidates are mandated to submit their accomplished Certificates of Candidacy (COC) via this portal. Any submissions failing to comply with the standardized format shall be subject to immediate invalidation by the Commissioners on Screening.
-            </p>
-        </div>
-    </section>
-
     <footer>
         <p>&copy; 2026 The JPSME Commission on Elections. All Rights Reserved.</p>
+        <p> Contact Us: jpsmectumccomelec@gmail.com</p>
         <p style="margin-top: 0.5rem; font-family: 'Playfair Display', serif; font-style: italic;">Clean. Honest. Orderly.</p>
     </footer>
 
