@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Digital Ballot | JPSME COMELEC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- REGAL CSS VARIABLES --- */
+        :root {
+            --regal-navy: #0A1128; 
+            --royal-blue: #1C2D5A; 
+            --gold-accent: #D4AF37; 
+            --gold-light: #F3E5AB; 
+            --white: #FFFFFF;
+            --danger-red: #e74c3c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--regal-navy);
+            color: var(--white);
+            background-image: radial-gradient(circle at 50% 0%, #15234b 0%, var(--regal-navy) 70%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        .terminal-container {
+            width: 90%;
+            max-width: 600px;
+            background-color: var(--royal-blue);
+            padding: 3rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .terminal-container::after {
+            content: ''; position: absolute;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            pointer-events: none;
+        }
+
+        .header { text-align: center; margin-bottom: 2rem; border-bottom: 1px solid var(--gold-accent); padding-bottom: 1rem; }
+        .header h1 { color: var(--gold-accent); font-size: 1.8rem; text-transform: uppercase; }
+        .header p { color: var(--gold-light); font-size: 0.9rem; letter-spacing: 1px; }
+
+        /* WIZARD PANELS */
+        .panel { display: none; position: relative; z-index: 2; }
+        .panel.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* INPUTS */
+        label { display: block; color: var(--gold-light); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 700; }
+        input[type="text"] {
+            width: 100%; background: rgba(10, 17, 40, 0.5); border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--white); padding: 1rem; margin-bottom: 1.5rem; outline: none; font-size: 1rem;
+        }
+        input:focus { border-color: var(--gold-accent); }
+
+        /* RADIO BUTTONS (THE VOTING CHOICES) */
+        .ballot-section { margin-bottom: 2rem; }
+        .ballot-section h3 { color: var(--gold-accent); margin-bottom: 1rem; font-size: 1.2rem; }
+        .candidate-option {
+            display: block; background: rgba(10, 17, 40, 0.4); border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 1rem; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.2s ease;
+        }
+        .candidate-option:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold-accent); }
+        .candidate-option input[type="radio"] { margin-right: 10px; accent-color: var(--gold-accent); }
+
+        /* BUTTONS */
+        .btn {
+            width: 100%; background-color: var(--gold-accent); color: var(--regal-navy);
+            padding: 1rem; border: none; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 2px; cursor: pointer; transition: background 0.3s ease; position: relative; z-index: 2;
+        }
+        .btn:hover { background-color: #e6c855; }
+        .btn:disabled { background-color: #555; cursor: not-allowed; }
+        
+        .error-box { color: var(--danger-red); font-size: 0.9rem; text-align: center; margin-bottom: 1rem; font-weight: bold; min-height: 20px;}
+    </style>
+</head>
+<body>
+
+    <div class="terminal-container">
+        <div class="header">
+            <h1>Official Digital Ballot</h1>
+            <p>JPSME Commission on Elections</p>
+        </div>
+
+        <div id="errorDisplay" class="error-box"></div>
+
+        <div id="panel-auth" class="panel active">
+            <label>Student ID Number</label>
+            <input type="text" id="voterId" placeholder="e.g., 123456" required>
+            
+            <label>Current Section</label>
+            <input type="text" id="voterSection" placeholder="e.g., BSME 4-B" required>
+            
+            <button class="btn" id="btnVerify" onclick="verifyVoter()">Authenticate to Enter Terminal</button>
+        </div>
+
+        <div id="panel-ballot" class="panel">
+            
+            <div class="ballot-section">
+                <h3>President</h3>
+                <label class="candidate-option"><input type="radio" name="president" value="Candidate A"> Kris Kean (Party Party)</label>
+                <label class="candidate-option"><input type="radio" name="president" value="Candidate B"> Neke Miyao (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="president" value="Abstain"> Abstain</label>
+            </div>
+
+            <div class="ballot-section">
+                <h3>Vice President - Internal</h3>
+                <label class="candidate-option"><input type="radio" name="vpInternal" value="Candidate C"> Katty (Party)</label>
+                <label class="candidate-option"><input type="radio" name="vpInternal" value="Candidate D"> Warren (Party Two)</label>
+                <label class="candidate-option"><input type="radio" name="vpInternal" value="Abstain"> Abstain</label>
+            </div>
+
+            <div class="ballot-section">
+                <h3>Vice President - External</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Secretary</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Assistance Secretary</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Treasurer</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Associate Treasurer</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+<div class="ballot-section">
+                <h3>Auditor</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Public Information Officer - Internal</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Public Information Officer - External</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Creatives Director</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Media Director</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Events Director</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Sponsorship and Linkages Director</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+          <div class="ballot-section">
+                <h3>Technical Director</h3>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
+            </div>
+            <button class="btn" id="btnSubmitVote" onclick="submitBallot()">Cast Official Ballot</button>
+        </div>
+
+        <div id="panel-success" class="panel" style="text-align: center;">
+            <h2 style="color: var(--gold-accent); margin-bottom: 1rem;">Ballot Secured</h2>
+            <p style="color: #b4c1e0;">Your vote has been cryptographically locked and transmitted to the Master Ledger. You may now close this terminal.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // REPLACE WITH YOUR NEW APPS SCRIPT URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwH_fyVaR_iQZerogucrcGJkNOEEdYW9XMuvk5ectt2xbYif7a3kTnbW_lAq25tPSEi4g/exec';
+        
+        // We only hold the row number to lock them out. We DO NOT hold the ID or Name.
+        let validatedDbRow = 0; 
+
+        async function verifyVoter() {
+            const btn = document.getElementById('btnVerify');
+            const errorBox = document.getElementById('errorDisplay');
+            const id = document.getElementById('voterId').value;
+            const section = document.getElementById('voterSection').value;
+
+            if (!id || !section) {
+                errorBox.innerText = "Please input both ID and Section.";
+                return;
+            }
+
+            btn.innerText = "VERIFYING SECURELY..."; btn.disabled = true; errorBox.innerText = "";
+
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    redirect: 'follow',
+                    body: JSON.stringify({ action: "verify", studentId: id, section: section })
+                });
+                
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    validatedDbRow = data.row; // Store only the row number for the lock-out
+                    
+                    // Clear the input fields immediately for privacy
+                    document.getElementById('voterId').value = '';
+                    document.getElementById('voterSection').value = '';
+
+                    // Move to the ballot
+                    document.getElementById('panel-auth').classList.remove('active');
+                    document.getElementById('panel-ballot').classList.add('active');
+                } else {
+                    errorBox.innerText = data.message;
+                    btn.innerText = "Authenticate to Enter Terminal"; btn.disabled = false;
+                }
+            } catch (error) {
+                errorBox.innerText = "Network transmission failed.";
+                btn.innerText = "Authenticate to Enter Terminal"; btn.disabled = false;
+            }
+        }
+
+        async function submitBallot() {
+            const btn = document.getElementById('btnSubmitVote');
+            const errorBox = document.getElementById('errorDisplay');
+
+            const pres = document.querySelector('input[name="president"]:checked');
+            const vpInt = document.querySelector('input[name="vpInternal"]:checked');
+            const vpExt = document.querySelector('input[name="vpExternal"]:checked');
+
+            if (!pres || !vpInt || !vpExt) {
+                errorBox.innerText = "You must select a candidate or 'Abstain' for all positions.";
+                return;
+            }
+
+            btn.innerText = "ENCRYPTING AND TRANSMITTING..."; btn.disabled = true; errorBox.innerText = "";
+
+            // Package the vote. Notice how NO identifying information is included here.
+            const payload = {
+                action: "vote",
+                dbRow: validatedDbRow,
+                president: pres.value,
+                vpInternal: vpInt.value,
+                vpExternal: vpExt.value
+            };
+
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    redirect: 'follow',
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    document.getElementById('panel-ballot').classList.remove('active');
+                    document.getElementById('panel-success').classList.add('active');
+                } else {
+                    errorBox.innerText = data.message;
+                    btn.innerText = "Cast Official Ballot"; btn.disabled = false;
+                }
+            } catch (error) {
+                errorBox.innerText = "Network transmission failed.";
+                btn.innerText = "Cast Official Ballot"; btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
