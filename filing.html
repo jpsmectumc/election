@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filing of Candidacy | JPSME COMELEC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- REGAL CSS VARIABLES --- */
+        :root {
+            --regal-navy: #0A1128; 
+            --royal-blue: #1C2D5A; 
+            --gold-accent: #D4AF37; 
+            --gold-light: #F3E5AB; 
+            --white: #FFFFFF;
+            --danger-red: #e74c3c;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--regal-navy);
+            color: var(--white);
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 50% 0%, #15234b 0%, var(--regal-navy) 70%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4, .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- NAVIGATION BAR --- */
+        nav {
+            background-color: rgba(10, 17, 40, 0.95);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .logo span {
+            color: var(--gold-accent);
+        }
+        .nav-links a {
+            color: var(--gold-light);
+            margin-left: 2.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--gold-accent);
+        }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            text-align: center;
+            padding: 4rem 5% 2rem 5%;
+        }
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--gold-accent);
+            margin-bottom: 0.5rem;
+        }
+        .page-header p {
+            color: var(--gold-light);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+
+        /* --- FORM CONTAINER --- */
+        .form-wrapper {
+            max-width: 800px;
+            margin: 0 auto 5rem auto;
+            width: 90%;
+            background-color: var(--royal-blue);
+            padding: 3rem 4rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        /* Inner gold border */
+        .form-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            pointer-events: none;
+        }
+
+        .form-section-title {
+            color: var(--gold-accent);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        /* --- FORM INPUTS --- */
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        .input-group label {
+            display: block;
+            color: var(--gold-light);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        .input-group input[type="text"],
+        .input-group input[type="email"],
+        .input-group select {
+            width: 100%;
+            background: rgba(10, 17, 40, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--white);
+            padding: 1rem;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: var(--gold-accent);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        /* --- FILE UPLOAD STYLING --- */
+        .file-upload-box {
+            border: 2px dashed rgba(212, 175, 55, 0.5);
+            background: rgba(10, 17, 40, 0.3);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .file-upload-box:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold-accent);
+        }
+        .file-upload-box input[type="file"] {
+            display: none; /* Hide the ugly default button */
+        }
+        .file-upload-label {
+            color: var(--gold-accent);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: block;
+        }
+        .file-upload-subtext {
+            color: #888;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* --- SWORN DECLARATION --- */
+        .declaration-box {
+            background: rgba(10, 17, 40, 0.8);
+            padding: 1.5rem;
+            border-left: 3px solid var(--gold-accent);
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 0.3rem;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--gold-accent);
+        }
+        .checkbox-group label {
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
+        /* --- SUBMIT BUTTON --- */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background-color: var(--gold-accent);
+            color: var(--regal-navy);
+            padding: 1.2rem;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        .btn-submit:hover {
+            background-color: #e6c855;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #060a17;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 0.85rem;
+            color: #6c7a9c;
+            margin-top: auto;
+        }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 1rem; }
+            .nav-links a { margin: 0 0.5rem; }
+            .form-wrapper { padding: 2rem 1.5rem; width: 95%; }
+            .page-header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">JPSME <span>COMELEC</span></div>
+        <div class="nav-links">
+            <a href="index.html">Return to Home</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Official Filing of Candidacy</h1>
+        <p>Pursuant to Article IV, Section 13 of the Omnibus Election Code. All fields are mandatory.</p>
+    </header>
+
+    <main class="form-wrapper">
+        <form id="cocForm">
+            
+            <h2 class="form-section-title">I. Candidate Details</h2>
+            
+            <div class="input-group">
+                <label for="fullName">Full Legal Name</label>
+                <input type="text" id="fullName" name="fullName" placeholder="e.g., Juan Dela Cruz" required>
+            </div>
+
+            <div class="input-group">
+                <label for="studentId">Student ID Number</label>
+                <input type="text" id="studentId" name="studentId" placeholder="e.g., 123456" required>
+            </div>
+
+            <div class="input-group">
+                <label for="yearSection">Year & Section</label>
+                <input type="text" id="yearSection" name="yearSection" placeholder="e.g., BSME 1-A" required>
+            </div>
+
+            <h2 class="form-section-title">II. Electoral Intent</h2>
+
+            <div class="input-group">
+                <label for="position">Position Sought</label>
+                <select id="position" name="position" required>
+                    <option value="" disabled selected>-- Select an Office --</option>
+                    <option value="President">President</option>
+                    <option value="VP Internal">Vice President - Internal</option>
+                    <option value="VP External">Vice President - External</option>
+                    <option value="Secretary">Secretary</option>
+                    <option value="Secretary">Assistant Secretary</option>
+                    <option value="Treasurer">Treasurer</option>
+                    <option value="Secretary">Associate Secretary</option>
+                    <option value="Auditor">Auditor</option>
+                    <option value="PRO">Public Information Officer - Internal</option>
+                    <option value="PRO">Public Information Officer - External</option>
+                    <option value="PRO">Creatives Director</option>
+                    <option value="PRO">Media Director</option>
+                    <option value="PRO">Events Director</option>
+                    <option value="PRO">Sponsorship and Linkages Director</option>
+                    <option value="PRO">Technical Director</option>
+                </select>
+            </div>
+
+            <h2 class="form-section-title">III. Document Submission</h2>
+
+            <div class="input-group">
+                <label>Official Certificate of Candidacy (PDF Only)</label>
+                <div class="file-upload-box" onclick="document.getElementById('cocFile').click()">
+                    <span class="file-upload-label">Click here to upload your sworn COC</span>
+                    <span class="file-upload-subtext">Must be in .pdf format. Max size 5MB.</span>
+                    <input type="file" id="cocFile" name="cocFile" accept="application/pdf" required onchange="updateFileName()">
+                </div>
+                <p id="fileNameDisplay" style="color: var(--gold-accent); margin-top: 0.5rem; font-size: 0.9rem; text-align: center;"></p>
+            </div>
+
+            <h2 class="form-section-title">IV. Sworn Declaration</h2>
+
+            <div class="declaration-box">
+                "I hereby state that I am a bona fide student of the Mechanical Engineering Department and an active member of JPSME in good standing. I have thoroughly read The JPSME Electoral Code and swear to conduct myself with dignity and professional courtesy. I accept that any fraudulent information provided herein is grounds for immediate disqualification."
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agreement" name="agreement" required>
+                    <label for="agreement">I swear under oath that the above is true and correct.</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Submit Formal Candidacy</button>
+
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The JPSME Commission on Elections. All Rights Reserved.</p>
+        <p> Contact Us: jpsmectumccomelec@gmail.com</p>
+        <p style="margin-top: 0.5rem; font-family: 'Playfair Display', serif; font-style: italic;">Clean. Honest. Orderly.</p>
+    </footer>
+
+    <script>
+        // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx1JuMnItf1jYORYSoH_KKBwBJ63JRB_HWE9bQQO7jpOlPwwfzbu_L6HqC8Ehk3THKt/exec';
+        
+        const form = document.getElementById('cocForm');
+        const submitBtn = document.querySelector('.btn-submit');
+        const fileInput = document.getElementById('cocFile');
+        const display = document.getElementById('fileNameDisplay');
+
+        // Update file name visually
+        function updateFileName() {
+            if (fileInput.files && fileInput.files.length > 0) {
+                display.innerText = "Attached: " + fileInput.files[0].name;
+            }
+        }
+
+        // Handle the Form Submission
+        form.addEventListener('submit', e => {
+            e.preventDefault(); // Stop the page from reloading
+            
+            // UI Feedback
+            submitBtn.innerText = "TRANSMITTING DATA... PLEASE WAIT";
+            submitBtn.style.backgroundColor = "#e74c3c"; // Turns red to indicate processing
+            submitBtn.disabled = true;
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            // Convert PDF to Base64 so it can travel across the web safely
+            reader.onload = function(event) {
+                const base64Data = event.target.result.split(',')[1]; 
+                
+                // Package the data
+                const payload = {
+                    fullName: document.getElementById('fullName').value,
+                    studentId: document.getElementById('studentId').value,
+                    yearSection: document.getElementById('yearSection').value,
+                    position: document.getElementById('position').value,
+                    fileBase64: base64Data
+                };
+
+                // Transmit to Google Apps Script
+                fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === "success") {
+                        alert("System Notice: Candidacy Successfully Filed! The Commission will review your documents.");
+                        form.reset();
+                        display.innerText = "";
+                        submitBtn.innerText = "SUBMIT FORMAL CANDIDACY";
+                        submitBtn.style.backgroundColor = "var(--gold-accent)";
+                        submitBtn.disabled = false;
+                    } else {
+                        throw new Error(data.message);
+                    }
+                })
+                .catch(error => {
+                    alert("Transmission Error: " + error);
+                    submitBtn.innerText = "SUBMIT FORMAL CANDIDACY";
+                    submitBtn.style.backgroundColor = "var(--gold-accent)";
+                    submitBtn.disabled = false;
+                });
+            };
+            
+            // Start the file reading process
+            reader.readAsDataURL(file);
+        });
+    </script>
+
+</body>
+</html>
