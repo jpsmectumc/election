@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electoral Guidelines | JPSME COMELEC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- REGAL CSS VARIABLES --- */
+        :root {
+            --regal-navy: #0A1128; 
+            --royal-blue: #1C2D5A; 
+            --gold-accent: #D4AF37; 
+            --gold-light: #F3E5AB; 
+            --white: #FFFFFF;
+            --off-white: #F8F9FA;
+            --muted-blue: #6c7a9c;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--regal-navy);
+            color: var(--off-white);
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 50% 0%, #15234b 0%, var(--regal-navy) 70%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4, .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- NAVIGATION BAR --- */
+        nav {
+            background-color: rgba(10, 17, 40, 0.95);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.4rem;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .logo span {
+            color: var(--gold-accent);
+        }
+        .nav-links a {
+            color: var(--gold-light);
+            margin-left: 2.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--gold-accent);
+        }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            text-align: center;
+            padding: 5rem 5% 3rem 5%;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .page-header h1 {
+            font-size: 2.8rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--gold-light);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* --- ACCORDION WRAPPER --- */
+        .guidelines-container {
+            max-width: 900px;
+            width: 90%;
+            margin: 4rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex: 1;
+        }
+
+        /* --- STYLING THE ACCORDION --- */
+        details {
+            background-color: var(--royal-blue);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        summary {
+            padding: 2rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--white);
+            cursor: pointer;
+            list-style: none; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+            user-select: none;
+        }
+        
+        summary::after {
+            content: '＋';
+            color: var(--gold-accent);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        details:hover {
+            border-color: var(--gold-accent);
+        }
+
+        details[open] {
+            border-color: var(--gold-accent);
+        }
+        details[open] summary {
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--gold-accent);
+        }
+        details[open] summary::after {
+            content: '－';
+        }
+
+        /* --- CONTENT INSIDE ACCORDION --- */
+        .guideline-content {
+            padding: 2.5rem;
+            color: #b4c1e0;
+            font-size: 0.95rem;
+            background-color: rgba(10, 17, 40, 0.4);
+        }
+        .guideline-content h4 {
+            color: var(--white);
+            margin: 1.5rem 0 0.5rem 0;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        .guideline-content h4:first-child {
+            margin-top: 0;
+        }
+        .guideline-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .guideline-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- BUTTON STYLES --- */
+        .btn-download {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--gold-accent);
+            border: 1px solid var(--gold-accent);
+            padding: 0.8rem 2rem;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .btn-download:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        /* --- PENDING STATUS STYLING --- */
+        .pending-status {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        .pending-status h4 {
+            color: var(--gold-accent);
+            letter-spacing: 3px;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .pending-status p {
+            color: var(--muted-blue);
+            font-style: italic;
+            font-size: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background-color: #060a17;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 0.85rem;
+            color: var(--muted-blue);
+        }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 1rem; }
+            .nav-links a { margin: 0 0.5rem; }
+            .page-header h1 { font-size: 2rem; }
+            summary { padding: 1.5rem; font-size: 1.1rem; }
+            .guideline-content { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">JPSME <span>COMELEC</span></div>
+        <div class="nav-links">
+            <a href="index.html">The Portal</a>
+            <a href="filing.html">Filing of Candidacy</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Operational Directives</h1>
+        <p>Official schedules, procedural rules, and regulations governing the active phases of the current election cycle.</p>
+    </header>
+
+    <main class="guidelines-container">
+
+        <details open>
+            <summary>I. Guidelines for Filing of Candidacy</summary>
+            <div class="guideline-content">
+                <p>In strict accordance with the mandate provided under Article IV of The JPSME Electoral Code, the Commission has officially promulgated the comprehensive guidelines to govern the qualification, documentation, and submission process for all members seeking elective office.</p>
+                
+                <h4>Key Provisions Include:</h4>
+                <ul>
+                    <li><strong>Mandatory Qualifications:</strong> Candidates must possess bona fide student status within the Mechanical Engineering Department, active organizational membership in good standing, and an integrity of record free from major disciplinary infractions.</li>
+                    <li><strong>Documentary Requirements:</strong> All candidates are strictly required to utilize the official Certificate of Candidacy (COC) template. No alternative formats will be accepted.</li>
+                    <li><strong>Protocol for Submission:</strong> Outlines the rigorous administrative chain of custody for direct and digital submissions to the Commissioners on Screening.</li>
+                </ul>
+                
+                <a href="cocg.html" target="_blank" class="btn-download">View Full Guidelines</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>II. Guidelines for Campaigning</summary>
+            <div class="guideline-content pending-status">
+                <h4>STATUS: PENDING PUBLICATION</h4>
+                <p>These guidelines are currently being drafted by the Commission. They will be officially promulgated and posted prior to the commencement of the Campaign Period.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>III. Guidelines for Miting de Avance and Debate</summary>
+            <div class="guideline-content pending-status">
+                <h4>STATUS: PENDING PUBLICATION</h4>
+                <p>These guidelines are currently being drafted by the Commission. They will be officially promulgated and posted prior to the scheduling of the Miting de Avance.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>IV. Guidelines for Election</summary>
+            <div class="guideline-content pending-status">
+                <h4>STATUS: PENDING PUBLICATION</h4>
+                <p>These guidelines are currently being drafted by the Commission. They will be officially promulgated and posted prior to Election Day.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>V. Guidelines for Counting and Canvassing</summary>
+            <div class="guideline-content pending-status">
+                <h4>STATUS: PENDING PUBLICATION</h4>
+                <p>These guidelines are currently being drafted by the Commission. They will be officially promulgated and posted prior to the closure of the digital balloting terminals.</p>
+            </div>
+        </details>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The JPSME Commission on Elections. All Rights Reserved.</p>
+        <p> Contact Us: jpsmectumccomelec@gmail.com</p>
+        <p style="margin-top: 0.5rem; font-family: 'Playfair Display', serif; font-style: italic;">Clean. Honest. Orderly.</p>
+    </footer>
+
+</body>
+</html>
