@@ -275,37 +275,52 @@
         <p> Contact Us: jpsmectumccomelec@gmail.com</p>
         <p style="margin-top: 0.5rem; font-family: 'Playfair Display', serif; font-style: italic;">Clean. Honest. Orderly.</p>
     </footer>
-<style>
-        /* Hidden by default */
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* --- DASHBOARD STYLES --- */
         #admin-modal {
-            display: none; 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10, 17, 40, 0.98); z-index: 9999;
             overflow-y: auto; padding: 3rem 5%; font-family: 'Lato', sans-serif;
         }
         #admin-modal.active { display: block; animation: fadeIn 0.5s; }
         
         .admin-container {
-            max-width: 900px; margin: 0 auto; background-color: #1C2D5A;
+            max-width: 1200px; margin: 0 auto; background-color: #1C2D5A;
             border: 2px solid #D4AF37; padding: 3rem; box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
-        .admin-header { text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 1rem; margin-bottom: 2rem; }
-        .admin-header h1 { font-family: 'Playfair Display', serif; color: #D4AF37; letter-spacing: 2px; }
-        .admin-header p { color: #e74c3c; font-weight: bold; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; margin-top: 0.5rem; }
-        
-        .tally-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .position-card { background: rgba(10, 17, 40, 0.6); border: 1px solid rgba(212, 175, 55, 0.2); padding: 1.5rem; }
-        .position-card h3 { color: #fff; margin-bottom: 1rem; font-size: 1.1rem; text-transform: uppercase; border-bottom: 1px dashed #D4AF37; padding-bottom: 0.5rem; }
-        
-        .candidate-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.95rem; }
-        .candidate-name { color: #b4c1e0; }
-        .candidate-votes { color: #D4AF37; font-weight: bold; font-size: 1.1rem; }
-        
-        .close-admin {
-            display: block; width: 100%; text-align: center; margin-top: 3rem;
-            color: #b4c1e0; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;
+        .admin-header { 
+            text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.3); 
+            padding-bottom: 1.5rem; margin-bottom: 2rem; position: relative;
         }
-        .close-admin:hover { color: #fff; }
+        .admin-header h1 { font-family: 'Playfair Display', serif; color: #D4AF37; letter-spacing: 2px; font-size: 2.2rem;}
+        .admin-header p { color: #e74c3c; font-weight: bold; text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; margin-top: 0.5rem; }
+        
+        /* Action Buttons */
+        .admin-actions { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
+        .btn-refresh { background-color: transparent; border: 1px solid #D4AF37; color: #D4AF37; padding: 0.5rem 1.5rem; cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; transition: all 0.3s; }
+        .btn-refresh:hover { background-color: #D4AF37; color: #1C2D5A; }
+        .btn-close { background-color: #e74c3c; border: none; color: white; padding: 0.5rem 1.5rem; cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; transition: all 0.3s; }
+        .btn-close:hover { background-color: #c0392b; }
+
+        /* Grid & Cards */
+        .tally-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2rem; }
+        .position-card { background: rgba(10, 17, 40, 0.6); border: 1px solid rgba(212, 175, 55, 0.2); padding: 2rem; }
+        .position-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px dashed #D4AF37; padding-bottom: 0.8rem; margin-bottom: 1.5rem; }
+        .position-card h3 { color: #fff; font-size: 1.4rem; text-transform: uppercase; margin: 0;}
+        .total-votes { color: #b4c1e0; font-size: 0.9rem; letter-spacing: 1px; }
+        
+        /* Stats List */
+        .stats-list { margin-top: 1.5rem; }
+        .candidate-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; font-size: 1rem; background: rgba(255,255,255,0.02); padding: 0.5rem; border-left: 3px solid #D4AF37;}
+        .candidate-name { color: #b4c1e0; font-weight: bold;}
+        .candidate-numbers { display: flex; gap: 1.5rem; align-items: center; }
+        .candidate-votes { color: #D4AF37; font-weight: bold; font-size: 1.2rem; }
+        .candidate-pct { color: #8aa1d6; font-size: 0.9rem; width: 45px; text-align: right;}
+
+        .loading-text { text-align: center; color: #D4AF37; width: 100%; font-size: 1.2rem; letter-spacing: 2px; padding: 3rem 0; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
     </style>
 
     <div id="admin-modal">
@@ -313,41 +328,38 @@
             <div class="admin-header">
                 <h1>Live Tabulation Uplink</h1>
                 <p>Level 5 Clearance Required</p>
-            </div>
-            <div class="tally-grid" id="tally-display">
-                <div style="text-align: center; color: #D4AF37; width: 100%;">
-                    Establishing secure connection to COMELEC Master Ledger...
+                <div class="admin-actions">
+                    <button class="btn-refresh" onclick="fetchLiveResults()" id="refreshBtn">Sync Live Data</button>
+                    <button class="btn-close" onclick="closeAdmin()">Terminate</button>
                 </div>
             </div>
-            <a class="close-admin" onclick="closeAdmin()">Terminate Connection (Close)</a>
+            
+            <div class="tally-grid" id="tally-display">
+                </div>
         </div>
     </div>
+
     <script>
-        // REPLACE WITH YOUR NEW APPS SCRIPT URL
+        // REPLACE THIS URL WITH YOUR BALLOT BOX APPS SCRIPT URL!
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwH_fyVaR_iQZerogucrcGJkNOEEdYW9XMuvk5ectt2xbYif7a3kTnbW_lAq25tPSEi4g/exec';
         
-        // THE EASTER EGG LOGIC
-        let secretCode = "admin"; // What they must type on the keyboard
+        let secretCode = "admin"; 
         let inputBuffer = "";
-        let adminPin = "2026"; // The secondary numeric PIN for security
+        let adminPin = "2026"; 
+        let activeCharts = {}; // Keeps track of charts so we can update them safely
 
-        // Listen to every key pressed on the homepage
+        // Keystroke listener for the Easter Egg
         document.addEventListener('keydown', function(e) {
-            // Ignore keystrokes if they are typing in an input box
             if (e.target.tagName.toLowerCase() === 'input') return;
 
             inputBuffer += e.key.toLowerCase();
-            
-            // Keep the buffer the same length as the secret code
             if (inputBuffer.length > secretCode.length) {
                 inputBuffer = inputBuffer.substring(1);
             }
 
-            // If the buffer matches the secret word!
             if (inputBuffer === secretCode) {
-                inputBuffer = ""; // Reset buffer
+                inputBuffer = ""; 
                 let enteredPin = prompt("SECURE OVERRIDE INITIATED.\n\nEnter COMELEC Authorization PIN:");
-                
                 if (enteredPin === adminPin) {
                     openAdminDashboard();
                 } else if (enteredPin !== null) {
@@ -360,13 +372,24 @@
             document.getElementById('admin-modal').classList.remove('active');
         }
 
-        async function openAdminDashboard() {
-            // Show the hidden dashboard
+        function openAdminDashboard() {
             document.getElementById('admin-modal').classList.add('active');
+            fetchLiveResults();
+        }
+
+        async function fetchLiveResults() {
             const displayArea = document.getElementById('tally-display');
+            const refreshBtn = document.getElementById('refreshBtn');
+            
+            refreshBtn.innerText = "SYNCING...";
+            refreshBtn.disabled = true;
+
+            // If it's empty, show loading text
+            if(displayArea.innerHTML.trim() === "") {
+                displayArea.innerHTML = `<div class="loading-text">Establishing secure connection to COMELEC Master Ledger...</div>`;
+            }
 
             try {
-                // Fetch the live tally from Google Sheets
                 const response = await fetch(scriptURL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -377,41 +400,120 @@
                 const responseData = await response.json();
 
                 if (responseData.status === "success") {
-                    renderTally(responseData.data, displayArea);
+                    renderDetailedTally(responseData.data, displayArea);
                 } else {
                     displayArea.innerHTML = `<div style="color: #e74c3c; text-align: center; width: 100%;">Error: ${responseData.message}</div>`;
                 }
             } catch (error) {
-                displayArea.innerHTML = `<div style="color: #e74c3c; text-align: center; width: 100%;">Transmission Intercepted: Failed to connect to server.</div>`;
+                displayArea.innerHTML = `<div style="color: #e74c3c; text-align: center; width: 100%;">Transmission Intercepted: Failed to connect to server. Check scriptURL.</div>`;
+            } finally {
+                refreshBtn.innerText = "Sync Live Data";
+                refreshBtn.disabled = false;
             }
         }
 
-        // Formats the raw spreadsheet data into the beautiful Regal HTML boxes
-        function renderTally(data, container) {
-            // Group the data by Position (President, VP, etc.)
+        function renderDetailedTally(data, container) {
             const groupedData = data.reduce((acc, curr) => {
                 if (!acc[curr.position]) acc[curr.position] = [];
                 acc[curr.position].push(curr);
                 return acc;
             }, {});
 
-            container.innerHTML = ""; // Clear the loading message
+            container.innerHTML = ""; 
+            
+            // Regal color palette for the bar charts
+            const palette = ['#D4AF37', '#e74c3c', '#8aa1d6', '#b4c1e0', '#FFFFFF'];
 
-            // Generate a card for each position
             for (const position in groupedData) {
-                // Sort candidates within the position by highest votes
+                // Sort candidates by highest votes
                 const candidates = groupedData[position].sort((a, b) => b.votes - a.votes);
+                const totalVotes = candidates.reduce((sum, c) => sum + c.votes, 0);
                 
-                let html = `<div class="position-card"><h3>${position}</h3>`;
-                candidates.forEach(c => {
+                // Create the card layout
+                let html = `
+                    <div class="position-card">
+                        <div class="position-header">
+                            <h3>${position}</h3>
+                            <span class="total-votes">Total Ballots: ${totalVotes}</span>
+                        </div>
+                        
+                        <canvas id="chart-${position.replace(/\s+/g, '-')}" height="150"></canvas>
+                        
+                        <div class="stats-list">`;
+                
+                let labels = [];
+                let chartData = [];
+                let bgColors = [];
+
+                candidates.forEach((c, index) => {
+                    let pct = totalVotes === 0 ? 0 : ((c.votes / totalVotes) * 100).toFixed(1);
+                    labels.push(c.candidate);
+                    chartData.push(c.votes);
+                    bgColors.push(palette[index % palette.length]); // Assign color
+
                     html += `
-                        <div class="candidate-row">
+                        <div class="candidate-row" style="border-left-color: ${palette[index % palette.length]}">
                             <span class="candidate-name">${c.candidate}</span>
-                            <span class="candidate-votes">${c.votes}</span>
+                            <div class="candidate-numbers">
+                                <span class="candidate-votes">${c.votes}</span>
+                                <span class="candidate-pct">${pct}%</span>
+                            </div>
                         </div>`;
                 });
-                html += `</div>`;
+
+                html += `</div></div>`;
                 container.innerHTML += html;
+
+                // We must draw the charts AFTER the HTML is injected into the DOM
+                setTimeout(() => {
+                    const ctxId = `chart-${position.replace(/\s+/g, '-')}`;
+                    const ctx = document.getElementById(ctxId).getContext('2d');
+                    
+                    // Destroy old chart if it exists so we can redraw it
+                    if(activeCharts[position]) {
+                        activeCharts[position].destroy();
+                    }
+
+                    // Create the new Horizontal Bar Chart
+                    Chart.defaults.color = '#b4c1e0';
+                    Chart.defaults.font.family = "'Lato', sans-serif";
+
+                    activeCharts[position] = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: chartData,
+                                backgroundColor: bgColors,
+                                borderRadius: 4,
+                                borderSkipped: false
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y', // Makes the bar chart horizontal
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#0A1128',
+                                    titleColor: '#D4AF37',
+                                    bodyFont: { size: 14 }
+                                }
+                            },
+                            scales: {
+                                x: { 
+                                    beginAtZero: true, 
+                                    grid: { color: 'rgba(212, 175, 55, 0.1)' },
+                                    ticks: { stepSize: 1 } // Only show whole numbers for votes
+                                },
+                                y: { 
+                                    grid: { display: false } 
+                                }
+                            }
+                        }
+                    });
+                }, 50); // Small delay ensures the canvas exists before Chart.js targets it
             }
         }
     </script>
