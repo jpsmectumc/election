@@ -284,7 +284,8 @@
             background: rgba(10, 17, 40, 0.98); z-index: 9999;
             overflow-y: auto; padding: 3rem 5%; font-family: 'Lato', sans-serif;
         }
-        #admin-modal.active { display: block; animation: fadeIn 0.5s; }
+        #admin-modal.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
         .admin-container {
             max-width: 1200px; margin: 0 auto; background-color: #1C2D5A;
@@ -292,7 +293,7 @@
         }
         .admin-header { 
             text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.3); 
-            padding-bottom: 1.5rem; margin-bottom: 2rem; position: relative;
+            padding-bottom: 1.5rem; margin-bottom: 2rem;
         }
         .admin-header h1 { font-family: 'Playfair Display', serif; color: #D4AF37; letter-spacing: 2px; font-size: 2.2rem;}
         .admin-header p { color: #e74c3c; font-weight: bold; text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; margin-top: 0.5rem; }
@@ -305,19 +306,20 @@
         .btn-close:hover { background-color: #c0392b; }
 
         /* Grid & Cards */
-        .tally-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2rem; }
+        .tally-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
         .position-card { background: rgba(10, 17, 40, 0.6); border: 1px solid rgba(212, 175, 55, 0.2); padding: 2rem; }
-        .position-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px dashed #D4AF37; padding-bottom: 0.8rem; margin-bottom: 1.5rem; }
-        .position-card h3 { color: #fff; font-size: 1.4rem; text-transform: uppercase; margin: 0;}
-        .total-votes { color: #b4c1e0; font-size: 0.9rem; letter-spacing: 1px; }
+        .position-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px dashed #D4AF37; padding-bottom: 0.8rem; margin-bottom: 1rem; }
+        .position-card h3 { color: #fff; font-size: 1.3rem; text-transform: uppercase; margin: 0;}
+        .total-votes { color: #b4c1e0; font-size: 0.85rem; letter-spacing: 1px; }
         
-        /* Stats List */
-        .stats-list { margin-top: 1.5rem; }
-        .candidate-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; font-size: 1rem; background: rgba(255,255,255,0.02); padding: 0.5rem; border-left: 3px solid #D4AF37;}
-        .candidate-name { color: #b4c1e0; font-weight: bold;}
-        .candidate-numbers { display: flex; gap: 1.5rem; align-items: center; }
-        .candidate-votes { color: #D4AF37; font-weight: bold; font-size: 1.2rem; }
-        .candidate-pct { color: #8aa1d6; font-size: 0.9rem; width: 45px; text-align: right;}
+        /* Raw Numbers Layout (The clean text list) */
+        .raw-counts-grid { margin-bottom: 1.5rem; }
+        .raw-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .raw-name { color: #b4c1e0; font-size: 0.95rem; }
+        .raw-vote { color: #D4AF37; font-weight: bold; font-size: 1.1rem; }
+
+        /* Chart Container */
+        .chart-container { position: relative; height: 140px; width: 100%; border-top: 1px solid rgba(212, 175, 55, 0.1); padding-top: 1rem; }
 
         .loading-text { text-align: center; color: #D4AF37; width: 100%; font-size: 1.2rem; letter-spacing: 2px; padding: 3rem 0; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
@@ -341,12 +343,12 @@
 
     <script>
         // REPLACE THIS URL WITH YOUR BALLOT BOX APPS SCRIPT URL!
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwH_fyVaR_iQZerogucrcGJkNOEEdYW9XMuvk5ectt2xbYif7a3kTnbW_lAq25tPSEi4g/exec';
+        const scriptURL = 'YOUR_WEB_APP_URL_HERE/exec';
         
         let secretCode = "admin"; 
         let inputBuffer = "";
         let adminPin = "2026"; 
-        let activeCharts = {}; // Keeps track of charts so we can update them safely
+        let activeCharts = {}; 
 
         // Keystroke listener for the Easter Egg
         document.addEventListener('keydown', function(e) {
@@ -384,7 +386,6 @@
             refreshBtn.innerText = "SYNCING...";
             refreshBtn.disabled = true;
 
-            // If it's empty, show loading text
             if(displayArea.innerHTML.trim() === "") {
                 displayArea.innerHTML = `<div class="loading-text">Establishing secure connection to COMELEC Master Ledger...</div>`;
             }
@@ -405,7 +406,7 @@
                     displayArea.innerHTML = `<div style="color: #e74c3c; text-align: center; width: 100%;">Error: ${responseData.message}</div>`;
                 }
             } catch (error) {
-                displayArea.innerHTML = `<div style="color: #e74c3c; text-align: center; width: 100%;">Transmission Intercepted: Failed to connect to server. Check scriptURL.</div>`;
+                displayArea.innerHTML = `<div style="color: #e74c3c; text-align: center; width: 100%;">Transmission Intercepted: Failed to connect to server.</div>`;
             } finally {
                 refreshBtn.innerText = "Sync Live Data";
                 refreshBtn.disabled = false;
@@ -419,101 +420,92 @@
                 return acc;
             }, {});
 
-            container.innerHTML = ""; 
-            
-            // Regal color palette for the bar charts
+            // OPTIMIZATION: Build the entire HTML layout in memory first
+            let fullHTML = "";
             const palette = ['#D4AF37', '#e74c3c', '#8aa1d6', '#b4c1e0', '#FFFFFF'];
 
             for (const position in groupedData) {
-                // Sort candidates by highest votes
                 const candidates = groupedData[position].sort((a, b) => b.votes - a.votes);
                 const totalVotes = candidates.reduce((sum, c) => sum + c.votes, 0);
                 
-                // Create the card layout
-                let html = `
+                // Create a clean ID for the canvas
+                let safePosId = position.replace(/[^a-zA-Z0-9]/g, '-'); 
+                
+                // 1. Build the Card Header
+                let cardHTML = `
                     <div class="position-card">
                         <div class="position-header">
                             <h3>${position}</h3>
                             <span class="total-votes">Total Ballots: ${totalVotes}</span>
                         </div>
-                        
-                        <canvas id="chart-${position.replace(/\s+/g, '-')}" height="150"></canvas>
-                        
-                        <div class="stats-list">`;
+                        <div class="raw-counts-grid">`;
                 
-                let labels = [];
-                let chartData = [];
-                let bgColors = [];
-
-                candidates.forEach((c, index) => {
-                    let pct = totalVotes === 0 ? 0 : ((c.votes / totalVotes) * 100).toFixed(1);
-                    labels.push(c.candidate);
-                    chartData.push(c.votes);
-                    bgColors.push(palette[index % palette.length]); // Assign color
-
-                    html += `
-                        <div class="candidate-row" style="border-left-color: ${palette[index % palette.length]}">
-                            <span class="candidate-name">${c.candidate}</span>
-                            <div class="candidate-numbers">
-                                <span class="candidate-votes">${c.votes}</span>
-                                <span class="candidate-pct">${pct}%</span>
-                            </div>
+                // 2. Build the Raw Text Numbers (The fast, readable list)
+                candidates.forEach((c) => {
+                    cardHTML += `
+                        <div class="raw-row">
+                            <span class="raw-name">${c.candidate}</span>
+                            <span class="raw-vote">${c.votes}</span>
                         </div>`;
                 });
 
-                html += `</div></div>`;
-                container.innerHTML += html;
+                // 3. Attach the empty Canvas container for the Graph
+                cardHTML += `
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chart-${safePosId}"></canvas>
+                        </div>
+                    </div>`;
+                
+                fullHTML += cardHTML;
+            }
 
-                // We must draw the charts AFTER the HTML is injected into the DOM
-                setTimeout(() => {
-                    const ctxId = `chart-${position.replace(/\s+/g, '-')}`;
-                    const ctx = document.getElementById(ctxId).getContext('2d');
-                    
-                    // Destroy old chart if it exists so we can redraw it
-                    if(activeCharts[position]) {
-                        activeCharts[position].destroy();
-                    }
+            // OPTIMIZATION: Inject the HTML into the browser exactly once (Cures the lag)
+            container.innerHTML = fullHTML;
 
-                    // Create the new Horizontal Bar Chart
-                    Chart.defaults.color = '#b4c1e0';
-                    Chart.defaults.font.family = "'Lato', sans-serif";
+            // OPTIMIZATION: Draw the charts after the HTML is safely on the page
+            for (const position in groupedData) {
+                const candidates = groupedData[position].sort((a, b) => b.votes - a.votes);
+                let safePosId = position.replace(/[^a-zA-Z0-9]/g, '-');
+                const ctxId = `chart-${safePosId}`;
+                const ctx = document.getElementById(ctxId).getContext('2d');
 
-                    activeCharts[position] = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                data: chartData,
-                                backgroundColor: bgColors,
-                                borderRadius: 4,
-                                borderSkipped: false
-                            }]
-                        },
-                        options: {
-                            indexAxis: 'y', // Makes the bar chart horizontal
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false },
-                                tooltip: {
-                                    backgroundColor: '#0A1128',
-                                    titleColor: '#D4AF37',
-                                    bodyFont: { size: 14 }
-                                }
-                            },
-                            scales: {
-                                x: { 
-                                    beginAtZero: true, 
-                                    grid: { color: 'rgba(212, 175, 55, 0.1)' },
-                                    ticks: { stepSize: 1 } // Only show whole numbers for votes
-                                },
-                                y: { 
-                                    grid: { display: false } 
-                                }
-                            }
+                // Prepare Chart Data
+                let labels = candidates.map(c => c.candidate);
+                let chartData = candidates.map(c => c.votes);
+                let bgColors = candidates.map((c, i) => palette[i % palette.length]);
+
+                // Destroy old charts from memory to prevent overlapping
+                if (activeCharts[position]) {
+                    activeCharts[position].destroy();
+                }
+
+                // Render New Chart
+                Chart.defaults.color = '#b4c1e0';
+                Chart.defaults.font.family = "'Lato', sans-serif";
+
+                activeCharts[position] = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: chartData,
+                            backgroundColor: bgColors,
+                            borderRadius: 4,
+                            borderSkipped: false
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y', // Horizontal bars
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { beginAtZero: true, grid: { color: 'rgba(212, 175, 55, 0.1)' }, ticks: { stepSize: 1 } },
+                            y: { grid: { display: false } }
                         }
-                    });
-                }, 50); // Small delay ensures the canvas exists before Chart.js targets it
+                    }
+                });
             }
         }
     </script>
