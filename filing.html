@@ -311,9 +311,19 @@
                 <div class="file-upload-box" onclick="document.getElementById('cocFile').click()">
                     <span class="file-upload-label">Click here to upload your sworn COC</span>
                     <span class="file-upload-subtext">Must be in .pdf format. Max size 5MB.</span>
-                    <input type="file" id="cocFile" name="cocFile" accept="application/pdf" required onchange="updateFileName()">
+                    <input type="file" id="cocFile" accept="application/pdf" required onchange="updateFileName('cocFile', 'cocNameDisplay')">
                 </div>
-                <p id="fileNameDisplay" style="color: var(--gold-accent); margin-top: 0.5rem; font-size: 0.9rem; text-align: center;"></p>
+                <p id="cocNameDisplay" style="color: var(--gold-accent); margin-top: 0.5rem; font-size: 0.9rem; text-align: center;"></p>
+            </div>
+
+            <div class="input-group">
+                <label>Formal 2x2 Photograph (JPG/PNG Only)</label>
+                <div class="file-upload-box" onclick="document.getElementById('photoFile').click()">
+                    <span class="file-upload-label">Click here to upload your 2x2 picture</span>
+                    <span class="file-upload-subtext">Must be a clear formal photo. .jpg or .png format.</span>
+                    <input type="file" id="photoFile" accept="image/jpeg, image/png" required onchange="updateFileName('photoFile', 'photoNameDisplay')">
+                </div>
+                <p id="photoNameDisplay" style="color: var(--gold-accent); margin-top: 0.5rem; font-size: 0.9rem; text-align: center;"></p>
             </div>
 
             <h2 class="form-section-title">IV. Sworn Declaration</h2>
@@ -340,73 +350,84 @@
 
     <script>
         // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbx1JuMnItf1jYORYSoH_KKBwBJ63JRB_HWE9bQQO7jpOlPwwfzbu_L6HqC8Ehk3THKt/exec';
+        const scriptURL = 'YOUR_WEB_APP_URL_HERE/exec';
         
         const form = document.getElementById('cocForm');
         const submitBtn = document.querySelector('.btn-submit');
-        const fileInput = document.getElementById('cocFile');
-        const display = document.getElementById('fileNameDisplay');
 
-        // Update file name visually
-        function updateFileName() {
-            if (fileInput.files && fileInput.files.length > 0) {
-                display.innerText = "Attached: " + fileInput.files[0].name;
+        // Dynamic visual update for both file boxes
+        function updateFileName(inputId, displayId) {
+            const input = document.getElementById(inputId);
+            const display = document.getElementById(displayId);
+            if (input.files && input.files.length > 0) {
+                display.innerText = "Attached: " + input.files[0].name;
             }
         }
 
+        // Helper function to read files as Base64 code
+        const getBase64 = (file) => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+
         // Handle the Form Submission
-        form.addEventListener('submit', e => {
-            e.preventDefault(); // Stop the page from reloading
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
             
             // UI Feedback
-            submitBtn.innerText = "TRANSMITTING DATA... PLEASE WAIT";
-            submitBtn.style.backgroundColor = "#e74c3c"; // Turns red to indicate processing
+            submitBtn.innerText = "TRANSMITTING SECURE DATA... PLEASE WAIT";
+            submitBtn.style.backgroundColor = "#e74c3c"; 
             submitBtn.disabled = true;
 
-            const file = fileInput.files[0];
-            const reader = new FileReader();
+            try {
+                const pdfFile = document.getElementById('cocFile').files[0];
+                const photoFile = document.getElementById('photoFile').files[0];
 
-            // Convert PDF to Base64 so it can travel across the web safely
-            reader.onload = function(event) {
-                const base64Data = event.target.result.split(',')[1]; 
+                // Wait for BOTH files to be converted to Base64 simultaneously
+                const [pdfBase64, photoBase64] = await Promise.all([
+                    getBase64(pdfFile), 
+                    getBase64(photoFile)
+                ]);
                 
-                // Package the data
+                // Package all text and file data
                 const payload = {
                     fullName: document.getElementById('fullName').value,
                     studentId: document.getElementById('studentId').value,
                     yearSection: document.getElementById('yearSection').value,
                     position: document.getElementById('position').value,
-                    fileBase64: base64Data
+                    pdfBase64: pdfBase64,
+                    photoBase64: photoBase64,
+                    photoMimeType: photoFile.type,
+                    photoName: photoFile.name
                 };
 
                 // Transmit to Google Apps Script
-                fetch(scriptURL, {
+                const response = await fetch(scriptURL, {
                     method: 'POST',
                     body: JSON.stringify(payload)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.status === "success") {
-                        alert("System Notice: Candidacy Successfully Filed! The Commission will review your documents.");
-                        form.reset();
-                        display.innerText = "";
-                        submitBtn.innerText = "SUBMIT FORMAL CANDIDACY";
-                        submitBtn.style.backgroundColor = "var(--gold-accent)";
-                        submitBtn.disabled = false;
-                    } else {
-                        throw new Error(data.message);
-                    }
-                })
-                .catch(error => {
-                    alert("Transmission Error: " + error);
-                    submitBtn.innerText = "SUBMIT FORMAL CANDIDACY";
-                    submitBtn.style.backgroundColor = "var(--gold-accent)";
-                    submitBtn.disabled = false;
                 });
-            };
-            
-            // Start the file reading process
-            reader.readAsDataURL(file);
+                
+                const data = await response.json();
+
+                if(data.status === "success") {
+                    alert("System Notice: Candidacy & Media Successfully Filed! The Commission will review your documents.");
+                    form.reset();
+                    document.getElementById('cocNameDisplay').innerText = "";
+                    document.getElementById('photoNameDisplay').innerText = "";
+                } else {
+                    throw new Error(data.message);
+                }
+
+            } catch (error) {
+                alert("Transmission Error: " + error.message);
+            } finally {
+                // Reset button state regardless of success or failure
+                submitBtn.innerText = "SUBMIT FORMAL CANDIDACY";
+                submitBtn.style.backgroundColor = "var(--gold-accent)";
+                submitBtn.disabled = false;
+            }
         });
     </script>
 
