@@ -489,12 +489,18 @@
                         </div>
                         <div class="raw-counts-grid">`;
                 
-                // 2. Build the Raw Text Numbers (The fast, readable list)
+               // 2. Build the Raw Text Numbers (Now with Percentages!)
                 candidates.forEach((c) => {
+                    // Calculate percentage safely (prevents dividing by zero before votes come in)
+                    let pct = totalVotes === 0 ? "0.0" : ((c.votes / totalVotes) * 100).toFixed(1);
+                    
                     cardHTML += `
                         <div class="raw-row">
                             <span class="raw-name">${c.candidate}</span>
-                            <span class="raw-vote">${c.votes}</span>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span class="raw-vote">${c.votes}</span>
+                                <span style="color: #8aa1d6; font-size: 0.9rem; width: 45px; text-align: right;">${pct}%</span>
+                            </div>
                         </div>`;
                 });
 
@@ -520,9 +526,18 @@
                 const ctx = document.getElementById(ctxId).getContext('2d');
 
                 // Prepare Chart Data
+               // Prepare Chart Data
                 let labels = candidates.map(c => c.candidate);
                 let chartData = candidates.map(c => c.votes);
-                let bgColors = candidates.map((c, i) => palette[i % palette.length]);
+                
+                // Smart Color Coding for Yes/No Votes
+                let bgColors = candidates.map(c => {
+                    let text = c.candidate.toLowerCase();
+                    if (text.includes('yes')) return '#D4AF37'; // Regal Gold
+                    if (text.includes('no')) return '#e74c3c';  // Danger Red
+                    if (text.includes('vacant')) return '#1C2D5A'; // Navy Background
+                    return '#8aa1d6'; // Muted Blue for Abstain
+                });
 
                 // Destroy old charts from memory to prevent overlapping
                 if (activeCharts[position]) {
