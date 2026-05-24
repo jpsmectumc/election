@@ -38,6 +38,7 @@
             border: 1px solid rgba(212, 175, 55, 0.3);
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             position: relative;
+            margin: 2rem 0; /* Added margin for scrolling */
         }
         .terminal-container::after {
             content: ''; position: absolute;
@@ -65,7 +66,10 @@
 
         /* RADIO BUTTONS (THE VOTING CHOICES) */
         .ballot-section { margin-bottom: 2rem; }
-        .ballot-section h3 { color: var(--gold-accent); margin-bottom: 1rem; font-size: 1.2rem; }
+        .ballot-section h3 { color: var(--gold-accent); margin-bottom: 0.2rem; font-size: 1.2rem; }
+        .candidate-name-display { color: var(--white); font-weight: bold; margin-bottom: 1rem; font-size: 1.1rem; letter-spacing: 1px; }
+        .vacant-display { color: #888; font-style: italic; margin-bottom: 1rem; font-size: 0.95rem; }
+        
         .candidate-option {
             display: block; background: rgba(10, 17, 40, 0.4); border: 1px solid rgba(212, 175, 55, 0.2);
             padding: 1rem; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.2s ease;
@@ -109,83 +113,110 @@
             
             <div class="ballot-section">
                 <h3>President</h3>
-                <label class="candidate-option"><input type="radio" name="president" value="Candidate A"> Kris Kean (Party Party)</label>
-                <label class="candidate-option"><input type="radio" name="president" value="Candidate B"> Neke Miyao (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="president" value="Abstain"> Abstain</label>
+                <div class="candidate-name-display">God Prey F. Torres</div>
+                <label class="candidate-option"><input type="radio" name="president" value="Yes (God Prey F. Torres)"> YES</label>
+                <label class="candidate-option"><input type="radio" name="president" value="No (God Prey F. Torres)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="president" value="Abstain"> ABSTAIN</label>
             </div>
 
             <div class="ballot-section">
                 <h3>Vice President - Internal</h3>
-                <label class="candidate-option"><input type="radio" name="vpInternal" value="Candidate C"> Katty (Party)</label>
-                <label class="candidate-option"><input type="radio" name="vpInternal" value="Candidate D"> Warren (Party Two)</label>
-                <label class="candidate-option"><input type="radio" name="vpInternal" value="Abstain"> Abstain</label>
+                <div class="candidate-name-display">Micha Paula F. Pongot</div>
+                <label class="candidate-option"><input type="radio" name="vpInternal" value="Yes (Micha Paula F. Pongot)"> YES</label>
+                <label class="candidate-option"><input type="radio" name="vpInternal" value="No (Micha Paula F. Pongot)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="vpInternal" value="Abstain"> ABSTAIN</label>
+            </div>
+
+            <div class="ballot-section" style="opacity: 0.6;">
+                <h3>Vice President - External</h3>
+                <div class="vacant-display">No Candidate Filed</div>
+                <label class="candidate-option"><input type="radio" name="vpExternal" value="Vacant (Abstain)" checked> Vacant (Auto-Abstain)</label>
             </div>
 
             <div class="ballot-section">
-                <h3>Vice President - External</h3>
-                <label class="candidate-option"><input type="radio" name="vpExternal" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="vpExternal" value="Abstain"> Abstain</label>
-            </div>
-          <div class="ballot-section">
                 <h3>Secretary</h3>
-                <label class="candidate-option"><input type="radio" name="secretary" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="secretary" value="Abstain"> Abstain</label>
+                <div class="candidate-name-display">Genvelle L. Pesalbon</div>
+                <label class="candidate-option"><input type="radio" name="secretary" value="Yes (Genvelle L. Pesalbon)"> YES</label>
+                <label class="candidate-option"><input type="radio" name="secretary" value="No (Genvelle L. Pesalbon)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="secretary" value="Abstain"> ABSTAIN</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section">
                 <h3>Assistant Secretary</h3>
-                <label class="candidate-option"><input type="radio" name="aSecretary" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="aSecretary" value="Abstain"> Abstain</label>
+                <div class="candidate-name-display">Jamila Jade Suan</div>
+                <label class="candidate-option"><input type="radio" name="aSecretary" value="Yes (Jamila Jade Suan)"> YES</label>
+                <label class="candidate-option"><input type="radio" name="aSecretary" value="No (Jamila Jade Suan)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="aSecretary" value="Abstain"> ABSTAIN</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section" style="opacity: 0.6;">
                 <h3>Treasurer</h3>
-                <label class="candidate-option"><input type="radio" name="treasurer" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="treasurer" value="Abstain"> Abstain</label>
+                <div class="vacant-display">No Candidate Filed</div>
+                <label class="candidate-option"><input type="radio" name="treasurer" value="Vacant (Abstain)" checked> Vacant (Auto-Abstain)</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section" style="opacity: 0.6;">
                 <h3>Associate Treasurer</h3>
-                <label class="candidate-option"><input type="radio" name="aTreasurer" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="aTreasurer" value="Abstain"> Abstain</label>
+                <div class="vacant-display">No Candidate Filed</div>
+                <label class="candidate-option"><input type="radio" name="aTreasurer" value="Vacant (Abstain)" checked> Vacant (Auto-Abstain)</label>
             </div>
-<div class="ballot-section">
+
+            <div class="ballot-section">
                 <h3>Auditor</h3>
-                <label class="candidate-option"><input type="radio" name="auditor" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="auditor" value="Abstain"> Abstain</label>
+                <div class="candidate-name-display">Rey Jerald P. Bacalso</div>
+                <label class="candidate-option"><input type="radio" name="auditor" value="Yes (Rey Jerald P. Bacalso)"> YES</label>
+                <label class="candidate-option"><input type="radio" name="auditor" value="No (Rey Jerald P. Bacalso)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="auditor" value="Abstain"> ABSTAIN</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section">
                 <h3>Public Information Officer - Internal</h3>
-                <label class="candidate-option"><input type="radio" name="pioInternal" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="pioInternal" value="Abstain"> Abstain</label>
+                <div class="candidate-name-display">Clent Axel M. Jugalbot</div>
+                <label class="candidate-option"><input type="radio" name="pioInternal" value="Yes (Clent Axel M. Jugalbot)"> YES</label>
+                <label class="candidate-option"><input type="radio" name="pioInternal" value="No (Clent Axel M. Jugalbot)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="pioInternal" value="Abstain"> ABSTAIN</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section" style="opacity: 0.6;">
                 <h3>Public Information Officer - External</h3>
-                <label class="candidate-option"><input type="radio" name="pioExternal" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="pioExternal" value="Abstain"> Abstain</label>
+                <div class="vacant-display">No Candidate Filed</div>
+                <label class="candidate-option"><input type="radio" name="pioExternal" value="Vacant (Abstain)" checked> Vacant (Auto-Abstain)</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section" style="opacity: 0.6;">
                 <h3>Creatives Director</h3>
-                <label class="candidate-option"><input type="radio" name="creatives" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="creatives" value="Abstain"> Abstain</label>
+                <div class="vacant-display">No Candidate Filed</div>
+                <label class="candidate-option"><input type="radio" name="creatives" value="Vacant (Abstain)" checked> Vacant (Auto-Abstain)</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section">
                 <h3>Media Director</h3>
-                <label class="candidate-option"><input type="radio" name="media" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="media" value="Abstain"> Abstain</label>
+                <div class="candidate-name-display">Anton Xchyler V. Espallagar</div>
+                <label class="candidate-option"><input type="radio" name="media" value="Yes (Anton Xchyler V. Espallagar)"> YES</label>
+                <label class="candidate-option"><input type="radio" name="media" value="No (Anton Xchyler V. Espallagar)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="media" value="Abstain"> ABSTAIN</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section" style="opacity: 0.6;">
                 <h3>Events Director</h3>
-                <label class="candidate-option"><input type="radio" name="events" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="events" value="Abstain"> Abstain</label>
+                <div class="vacant-display">No Candidate Filed</div>
+                <label class="candidate-option"><input type="radio" name="events" value="Vacant (Abstain)" checked> Vacant (Auto-Abstain)</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section">
                 <h3>Sponsorship and Linkages Director</h3>
-                <label class="candidate-option"><input type="radio" name="snl" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="snl" value="Abstain"> Abstain</label>
+                <div class="candidate-name-display">Lei Garvin T. Saycon</div>
+                <label class="candidate-option"><input type="radio" name="snl" value="Yes (Lei Garvin T. Saycon)"> YES</label>
+                <label class="candidate-option"><input type="radio" name="snl" value="No (Lei Garvin T. Saycon)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="snl" value="Abstain"> ABSTAIN</label>
             </div>
-          <div class="ballot-section">
+
+            <div class="ballot-section" style="opacity: 0.6;">
                 <h3>Technical Director</h3>
-                <label class="candidate-option"><input type="radio" name="technical" value="Candidate E"> Candidate E (Independent)</label>
-                <label class="candidate-option"><input type="radio" name="technical" value="Abstain"> Abstain</label>
+                <div class="vacant-display">No Candidate Filed</div>
+                <label class="candidate-option"><input type="radio" name="technical" value="Vacant (Abstain)" checked> Vacant (Auto-Abstain)</label>
             </div>
+
             <button class="btn" id="btnSubmitVote" onclick="submitBallot()">Cast Official Ballot</button>
         </div>
 
@@ -265,14 +296,17 @@
             const event = document.querySelector('input[name="events"]:checked');
             const spo = document.querySelector('input[name="snl"]:checked');
             const tech = document.querySelector('input[name="technical"]:checked');
+            
             if (!pres || !vpInt || !vpExt || !sec || !asec || !trea || !atrea || !aud || !pioI || !pioE || !crea || !med || !event || !spo || !tech) {
-                errorBox.innerText = "You must select a candidate or 'Abstain' for all positions.";
+                errorBox.innerText = "You must explicitly cast a vote or select Abstain for all positions.";
+                // Smooth scroll back to the top so they see the error
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             }
 
             btn.innerText = "ENCRYPTING AND TRANSMITTING..."; btn.disabled = true; errorBox.innerText = "";
 
-            // Package the vote. Notice how NO identifying information is included here.
+            // Package the vote
             const payload = {
                 action: "vote",
                 dbRow: validatedDbRow,
@@ -306,6 +340,7 @@
                 if (data.status === "success") {
                     document.getElementById('panel-ballot').classList.remove('active');
                     document.getElementById('panel-success').classList.add('active');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                     errorBox.innerText = data.message;
                     btn.innerText = "Cast Official Ballot"; btn.disabled = false;
