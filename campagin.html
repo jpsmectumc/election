@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Guidelines & Operational Directives | JPSME COMELEC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- REGAL CSS VARIABLES --- */
+        :root {
+            --regal-navy: #0A1128; 
+            --royal-blue: #1C2D5A; 
+            --gold-accent: #D4AF37; 
+            --gold-light: #F3E5AB; 
+            --white: #FFFFFF;
+            --off-white: #F8F9FA;
+            --muted-blue: #6c7a9c;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--regal-navy);
+            color: var(--off-white);
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 50% 0%, #15234b 0%, var(--regal-navy) 70%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        h1, h2, h3, h4, .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- NAVIGATION BAR --- */
+        nav {
+            background-color: rgba(10, 17, 40, 0.95);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.4rem;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .logo span {
+            color: var(--gold-accent);
+        }
+        .nav-links a {
+            color: var(--gold-light);
+            margin-left: 2.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--gold-accent);
+        }
+
+        /* --- DOCUMENT CONTAINER --- */
+        .document-wrapper {
+            max-width: 900px;
+            width: 90%;
+            margin: 4rem auto;
+            background-color: var(--royal-blue);
+            padding: 4rem 5rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            position: relative;
+            flex: 1;
+        }
+        .document-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            pointer-events: none;
+        }
+
+        /* --- DOCUMENT HEADER --- */
+        .doc-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        .doc-header h1 {
+            font-size: 2.2rem;
+            color: var(--gold-accent);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        .doc-header h2 {
+            font-size: 1.2rem;
+            color: var(--white);
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+        .doc-intro {
+            font-size: 1rem;
+            color: var(--gold-light);
+            font-style: italic;
+            text-align: justify;
+        }
+
+        /* --- DOCUMENT CONTENT --- */
+        .doc-section {
+            margin-bottom: 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        .doc-section h3 {
+            font-size: 1.4rem;
+            color: var(--white);
+            margin-bottom: 1.2rem;
+            border-left: 4px solid var(--gold-accent);
+            padding-left: 1rem;
+            text-transform: uppercase;
+        }
+        .doc-section p {
+            color: #b4c1e0;
+            margin-bottom: 1rem;
+            text-align: justify;
+            font-size: 1rem;
+        }
+        .doc-list {
+            list-style-type: lower-alpha;
+            margin-left: 2rem;
+            color: #b4c1e0;
+        }
+        .doc-list li {
+            margin-bottom: 1rem;
+            text-align: justify;
+            padding-left: 0.5rem;
+        }
+        .doc-list strong {
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+            font-size: 1.05rem;
+        }
+
+        /* --- SIGNATORIES --- */
+        .signatories {
+            margin-top: 5rem;
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+            z-index: 2;
+        }
+        .signature-block {
+            text-align: center;
+            width: 300px;
+        }
+        .promulgated-text {
+            color: var(--gold-accent);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+        .sig-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--white);
+            font-weight: 700;
+            border-bottom: 1px solid var(--gold-light);
+            padding-bottom: 0.3rem;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+        }
+        .sig-title {
+            color: var(--gold-light);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background-color: #060a17;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 0.85rem;
+            color: var(--muted-blue);
+        }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 1rem; }
+            .nav-links a { margin: 0 0.5rem; }
+            .document-wrapper { padding: 2.5rem 1.5rem; }
+            .doc-header h1 { font-size: 1.8rem; }
+            .signatories { justify-content: center; margin-top: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">JPSME <span>COMELEC</span></div>
+        <div class="nav-links">
+            <a href="index.html">The Portal</a>
+            <a href="guidelines.html">Back to Guidelines</a>
+        </div>
+    </nav>
+
+    <main class="document-wrapper">
+        
+        <div class="doc-header">
+            <h1>Campaign Guidelines & Operational Directives</h1>
+            <h2>JPSME COMMISSION ON ELECTIONS (COMELEC)</h2>
+            <p class="doc-intro">
+                The Commission on Elections hereby promulgates these comprehensive operational directives to govern the five phases of the electoral process: filing, campaigning, dialogue, election, and canvassing. These guidelines enforce strict adherence to transparency, fairness, and neutrality.
+            </p>
+        </div>
+
+        <div class="doc-section">
+            <h3>I. General Operational Directives</h3>
+            <ul class="doc-list">
+                <li><strong>Transparency and Neutrality:</strong> All electoral proceedings shall be conducted with absolute transparency and impartiality by the Commission.</li>
+                <li><strong>Unopposed Candidates:</strong> Candidates running unopposed must undergo a Mandatory Vote of Confidence. To be proclaimed the winner, an unopposed candidate must obtain a simple majority (50% + 1) of the total votes cast for that specific position, measured against "Abstain" votes.</li>
+                <li><strong>Presidential Contingency:</strong> If the sole candidate for the office of the President fails to meet the required electoral threshold, the Commission shall declare a Failure of Election for the Presidency and execute a Special Election as soon as possible.</li>
+            </ul>
+        </div>
+
+        <div class="doc-section">
+            <h3>II. Guidelines on Campaigning</h3>
+            <p>The campaign period allows candidates to present their platforms to the electorate. Strict adherence to these rules is mandatory to maintain a clean and orderly election.</p>
+            <ul class="doc-list">
+                <li><strong>Authorized Campaign Period:</strong> All campaign activities must be strictly confined to the official Campaign Period as defined in the Election Calendar. Premature campaigning is prohibited.</li>
+                <li><strong>Multimedia Clearance:</strong> All campaign materials, including digital publications, videos, and printed assets, must receive prior clearance from the Commission before distribution.</li>
+                <li><strong>Prohibited Conduct:</strong> Negative campaigning, <em>ad hominem</em> attacks, smear campaigns, or any activities aimed at destroying the reputation of another candidate or the organization are strictly prohibited.</li>
+                <li><strong>Enforcement:</strong> Violations of these campaign guidelines may result in sanctions, up to and including disqualification by the Commission.</li>
+            </ul>
+        </div>
+
+        <div class="doc-section">
+            <h3>III. Miting de Avance and Dialogue</h3>
+            <ul class="doc-list">
+                <li><strong>Mandatory Attendance:</strong> All official candidates are required to attend the Miting de Avance to present their platforms and participate in dialogue.</li>
+                <li><strong>Member Inquiry:</strong> The Miting de Avance shall provide a structured forum for the student body to respectfully direct inquiries to the candidates regarding their platforms.</li>
+            </ul>
+        </div>
+
+        <div class="doc-section">
+            <h3>IV. Election Day and Canvassing Protocol</h3>
+            <ul class="doc-list">
+                <li><strong>Authenticated Balloting:</strong> The election shall utilize the official, authenticated digital balloting system to strictly enforce a one-voter-one-vote mandate.</li>
+                <li><strong>Automated Tabulation:</strong> The canvassing of votes shall be conducted via an automated tabulation process to ensure speed, accuracy, and absolute integrity of the results.</li>
+                <li><strong>Official Proclamation:</strong> The Commission shall formally proclaim the winners upon the certification of the final canvassed results.</li>
+            </ul>
+        </div>
+
+        <div class="promulgated-text">Promulgated by the Authority of the Commission:</div>
+        <div class="signatories">
+            <div>
+                <div class="signature-block">
+                    <div class="sig-name">Kyle Johnson C. Judilla</div>
+                    <div class="sig-title">Chairman, JPSME COMELEC</div>
+                </div>
+                <div class="signature-block" style="margin-top: 1rem;">
+                    <div class="sig-name">Catherine V. Guzman</div>
+                    <div class="sig-title">Secretary, JPSME COMELEC</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The JPSME Commission on Elections. All Rights Reserved.</p>
+        <p> Contact Us: jpsmectumccomelec@gmail.com</p>
+        <p style="margin-top: 0.5rem; font-family: 'Playfair Display', serif; font-style: italic;">Clean. Honest. Orderly.</p>
+    </footer>
+
+</body>
+</html>
