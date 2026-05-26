@@ -38,7 +38,7 @@
             border: 1px solid rgba(212, 175, 55, 0.3);
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             position: relative;
-            margin: 2rem 0; /* Added margin for scrolling */
+            margin: 2rem 0; 
         }
         .terminal-container::after {
             content: ''; position: absolute;
@@ -64,15 +64,15 @@
         }
         input:focus { border-color: var(--gold-accent); }
 
-        /* RADIO BUTTONS (THE VOTING CHOICES) */
+        /* RADIO BUTTONS */
         .ballot-section { margin-bottom: 2rem; }
-        .ballot-section h3 { color: var(--gold-accent); margin-bottom: 0.2rem; font-size: 1.2rem; }
-        .candidate-name-display { color: var(--white); font-weight: bold; margin-bottom: 1rem; font-size: 1.1rem; letter-spacing: 1px; }
+        .ballot-section h3 { color: var(--gold-accent); margin-bottom: 0.8rem; font-size: 1.2rem; }
         .vacant-display { color: #888; font-style: italic; margin-bottom: 1rem; font-size: 0.95rem; }
         
         .candidate-option {
             display: block; background: rgba(10, 17, 40, 0.4); border: 1px solid rgba(212, 175, 55, 0.2);
             padding: 1rem; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.2s ease;
+            color: var(--white); font-weight: bold; letter-spacing: 0.5px;
         }
         .candidate-option:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold-accent); }
         .candidate-option input[type="radio"] { margin-right: 10px; accent-color: var(--gold-accent); }
@@ -113,17 +113,13 @@
             
             <div class="ballot-section">
                 <h3>President</h3>
-                <div class="candidate-name-display">God Prey F. Torres</div>
-                <label class="candidate-option"><input type="radio" name="president" value="Yes (God Prey F. Torres)"> YES</label>
-                <label class="candidate-option"><input type="radio" name="president" value="No (God Prey F. Torres)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="president" value="God Prey F. Torres"> God Prey F. Torres</label>
                 <label class="candidate-option"><input type="radio" name="president" value="Abstain"> ABSTAIN</label>
             </div>
 
             <div class="ballot-section">
                 <h3>Vice President - Internal</h3>
-                <div class="candidate-name-display">Micha Paula F. Pongot</div>
-                <label class="candidate-option"><input type="radio" name="vpInternal" value="Yes (Micha Paula F. Pongot)"> YES</label>
-                <label class="candidate-option"><input type="radio" name="vpInternal" value="No (Micha Paula F. Pongot)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="vpInternal" value="Micha Paula F. Pongot"> Micha Paula F. Pongot</label>
                 <label class="candidate-option"><input type="radio" name="vpInternal" value="Abstain"> ABSTAIN</label>
             </div>
 
@@ -135,17 +131,13 @@
 
             <div class="ballot-section">
                 <h3>Secretary</h3>
-                <div class="candidate-name-display">Genvelle L. Pesalbon</div>
-                <label class="candidate-option"><input type="radio" name="secretary" value="Yes (Genvelle L. Pesalbon)"> YES</label>
-                <label class="candidate-option"><input type="radio" name="secretary" value="No (Genvelle L. Pesalbon)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="secretary" value="Genvelle L. Pesalbon"> Genvelle L. Pesalbon</label>
                 <label class="candidate-option"><input type="radio" name="secretary" value="Abstain"> ABSTAIN</label>
             </div>
 
             <div class="ballot-section">
                 <h3>Assistant Secretary</h3>
-                <div class="candidate-name-display">Jamila Jade Suan</div>
-                <label class="candidate-option"><input type="radio" name="aSecretary" value="Yes (Jamila Jade Suan)"> YES</label>
-                <label class="candidate-option"><input type="radio" name="aSecretary" value="No (Jamila Jade Suan)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="aSecretary" value="Jamila Jade Suan"> Jamila Jade Suan</label>
                 <label class="candidate-option"><input type="radio" name="aSecretary" value="Abstain"> ABSTAIN</label>
             </div>
 
@@ -163,17 +155,13 @@
 
             <div class="ballot-section">
                 <h3>Auditor</h3>
-                <div class="candidate-name-display">Rey Jerald P. Bacalso</div>
-                <label class="candidate-option"><input type="radio" name="auditor" value="Yes (Rey Jerald P. Bacalso)"> YES</label>
-                <label class="candidate-option"><input type="radio" name="auditor" value="No (Rey Jerald P. Bacalso)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="auditor" value="Rey Jerald P. Bacalso"> Rey Jerald P. Bacalso</label>
                 <label class="candidate-option"><input type="radio" name="auditor" value="Abstain"> ABSTAIN</label>
             </div>
 
             <div class="ballot-section">
                 <h3>Public Information Officer - Internal</h3>
-                <div class="candidate-name-display">Clent Axel M. Jugalbot</div>
-                <label class="candidate-option"><input type="radio" name="pioInternal" value="Yes (Clent Axel M. Jugalbot)"> YES</label>
-                <label class="candidate-option"><input type="radio" name="pioInternal" value="No (Clent Axel M. Jugalbot)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="pioInternal" value="Clent Axel M. Jugalbot"> Clent Axel M. Jugalbot</label>
                 <label class="candidate-option"><input type="radio" name="pioInternal" value="Abstain"> ABSTAIN</label>
             </div>
 
@@ -191,9 +179,7 @@
 
             <div class="ballot-section">
                 <h3>Media Director</h3>
-                <div class="candidate-name-display">Anton Xchyler V. Espallagar</div>
-                <label class="candidate-option"><input type="radio" name="media" value="Yes (Anton Xchyler V. Espallagar)"> YES</label>
-                <label class="candidate-option"><input type="radio" name="media" value="No (Anton Xchyler V. Espallagar)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="media" value="Anton Xchyler V. Espallagar"> Anton Xchyler V. Espallagar</label>
                 <label class="candidate-option"><input type="radio" name="media" value="Abstain"> ABSTAIN</label>
             </div>
 
@@ -205,9 +191,7 @@
 
             <div class="ballot-section">
                 <h3>Sponsorship and Linkages Director</h3>
-                <div class="candidate-name-display">Lei Garvin T. Saycon</div>
-                <label class="candidate-option"><input type="radio" name="snl" value="Yes (Lei Garvin T. Saycon)"> YES</label>
-                <label class="candidate-option"><input type="radio" name="snl" value="No (Lei Garvin T. Saycon)"> NO</label>
+                <label class="candidate-option"><input type="radio" name="snl" value="Lei Garvin T. Saycon"> Lei Garvin T. Saycon</label>
                 <label class="candidate-option"><input type="radio" name="snl" value="Abstain"> ABSTAIN</label>
             </div>
 
@@ -228,10 +212,9 @@
     </div>
 
     <script>
-        // REPLACE WITH YOUR NEW APPS SCRIPT URL
+        // REPLACE WITH YOUR APPS SCRIPT URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwH_fyVaR_iQZerogucrcGJkNOEEdYW9XMuvk5ectt2xbYif7a3kTnbW_lAq25tPSEi4g/exec';
         
-        // We only hold the row number to lock them out. We DO NOT hold the ID or Name.
         let validatedDbRow = 0; 
 
         async function verifyVoter() {
@@ -258,13 +241,11 @@
                 const data = await response.json();
 
                 if (data.status === "success") {
-                    validatedDbRow = data.row; // Store only the row number for the lock-out
+                    validatedDbRow = data.row; 
                     
-                    // Clear the input fields immediately for privacy
                     document.getElementById('voterId').value = '';
                     document.getElementById('voterSection').value = '';
 
-                    // Move to the ballot
                     document.getElementById('panel-auth').classList.remove('active');
                     document.getElementById('panel-ballot').classList.add('active');
                 } else {
@@ -299,14 +280,12 @@
             
             if (!pres || !vpInt || !vpExt || !sec || !asec || !trea || !atrea || !aud || !pioI || !pioE || !crea || !med || !event || !spo || !tech) {
                 errorBox.innerText = "You must explicitly cast a vote or select Abstain for all positions.";
-                // Smooth scroll back to the top so they see the error
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             }
 
             btn.innerText = "ENCRYPTING AND TRANSMITTING..."; btn.disabled = true; errorBox.innerText = "";
 
-            // Package the vote
             const payload = {
                 action: "vote",
                 dbRow: validatedDbRow,
