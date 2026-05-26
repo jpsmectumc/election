@@ -530,13 +530,12 @@
                 let labels = candidates.map(c => c.candidate);
                 let chartData = candidates.map(c => c.votes);
                 
-                // Smart Color Coding for Yes/No Votes
+                // Smart Color Coding for Candidates vs Abstain
                 let bgColors = candidates.map(c => {
                     let text = c.candidate.toLowerCase();
-                    if (text.includes('yes')) return '#D4AF37'; // Regal Gold
-                    if (text.includes('no')) return '#e74c3c';  // Danger Red
-                    if (text.includes('vacant')) return '#1C2D5A'; // Navy Background
-                    return '#8aa1d6'; // Muted Blue for Abstain
+                    if (text.includes('abstain')) return '#8aa1d6'; // Muted Blue for Abstain
+                    if (text.includes('vacant')) return '#1C2D5A';  // Navy for Vacant
+                    return '#D4AF37'; // Regal Gold for all Candidate Names
                 });
 
                 // Destroy old charts from memory to prevent overlapping
