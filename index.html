@@ -275,6 +275,64 @@
                 padding: 2.5rem 1.5rem;
             }
         }
+        /* --- COMMUNICATION BUTTONS --- */
+        .messenger-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--royal-blue);
+            color: var(--gold-light);
+            border: 1px solid var(--gold-accent);
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .messenger-float:hover {
+            background-color: var(--gold-accent);
+            color: var(--regal-navy);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-email {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--gold-accent);
+            border: 1px solid var(--gold-accent);
+            padding: 8px 16px;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+        .btn-email:hover {
+            background-color: var(--gold-accent);
+            color: var(--regal-navy);
+        }
+
+        /* Mobile adjustment for Messenger float */
+        @media (max-width: 768px) {
+            .messenger-float {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -321,8 +379,12 @@
 
     <footer>
         <p>&copy; 2026 The JPSME Commission on Elections. All Rights Reserved.</p>
-        <p> Contact Us: jpsmectumccomelec@gmail.com</p>
-        <p style="margin-top: 0.5rem; font-family: 'Playfair Display', serif; font-style: italic;">Clean. Honest. Orderly.</p>
+        <p style="margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; font-style: italic;">Clean. Honest. Orderly.</p>
+        
+        <!-- DIRECT EMAIL BUTTON -->
+        <a href="mailto:jpsmectumccomelec@gmail.com?subject=COMELEC%20Inquiry%20-%20Election%202026" class="btn-email">
+            ✉️ Email the Commission
+        </a>
     </footer>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -572,5 +634,9 @@
             }
         }
     </script>
+    <!-- FLOATING MESSENGER BUTTON -->
+    <a href="https://m.me/YOUR_FACEBOOK_USERNAME" class="messenger-float" target="_blank">
+        💬 Ask COMELEC
+    </a>
 </body>
 </html>
