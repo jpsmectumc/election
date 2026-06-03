@@ -106,7 +106,7 @@
             <label>Current Section</label>
             <input type="text" id="voterSection" placeholder="e.g., 4-B" required>
             
-            <button class="btn" id="btnVerify" onclick="verifyVoter()">Authenticate to Enter Terminal</button>
+            <button class="btn" id="btnVerify" onclick="verifyVoter()">Authenticate</button>
         </div>
 
         <div id="panel-ballot" class="panel">
@@ -206,7 +206,7 @@
 
         <div id="panel-success" class="panel" style="text-align: center;">
             <h2 style="color: var(--gold-accent); margin-bottom: 1rem;">Ballot Secured</h2>
-            <p style="color: #b4c1e0;">Your vote has been cryptographically locked and transmitted to the Master Ledger. You may now close this terminal.</p>
+            <p style="color: #b4c1e0;">Your vote has been recorded. You may now close this terminal. Thank you!</p>
         </div>
 
     </div>
@@ -250,11 +250,11 @@
                     document.getElementById('panel-ballot').classList.add('active');
                 } else {
                     errorBox.innerText = data.message;
-                    btn.innerText = "Authenticate to Enter Terminal"; btn.disabled = false;
+                    btn.innerText = "Authenticate"; btn.disabled = false;
                 }
             } catch (error) {
                 errorBox.innerText = "Network transmission failed.";
-                btn.innerText = "Authenticate to Enter Terminal"; btn.disabled = false;
+                btn.innerText = "Authenticate"; btn.disabled = false;
             }
         }
 
