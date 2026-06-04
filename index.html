@@ -8,10 +8,10 @@
     <style>
         /* --- REGAL CSS VARIABLES --- */
         :root {
-            --regal-navy: #0A1128; /* Very deep, formal navy */
-            --royal-blue: #1C2D5A; /* Slightly lighter navy for cards */
-            --gold-accent: #D4AF37; /* Metallic gold */
-            --gold-light: #F3E5AB; /* Pale gold/parchment for text */
+            --regal-navy: #0A1128; 
+            --royal-blue: #1C2D5A; 
+            --gold-accent: #D4AF37; 
+            --gold-light: #F3E5AB; 
             --white: #FFFFFF;
             --off-white: #F8F9FA;
         }
@@ -45,7 +45,7 @@
         /* --- NAVIGATION BAR --- */
         nav {
             background-color: rgba(10, 17, 40, 0.95);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3); /* Subtle gold border */
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); 
             padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
@@ -141,7 +141,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 3rem;
-            flex: 1; /* Pushes footer to the bottom */
+            flex: 1; 
         }
         .card {
             background-color: var(--royal-blue);
@@ -152,7 +152,6 @@
             position: relative;
             transition: transform 0.4s ease;
         }
-        /* Inner gold border for that certificate look */
         .card::after {
             content: '';
             position: absolute;
@@ -194,7 +193,7 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
             position: relative;
-            z-index: 2; /* Keeps button clickable above the inner border */
+            z-index: 2; 
         }
         .btn:hover {
             background-color: #e6c855;
@@ -228,13 +227,11 @@
         }
         /* --- MOBILE RESPONSIVENESS FIX --- */
         @media (max-width: 768px) {
-            /* 1. Stop the screen from scrolling sideways */
             html, body {
                 overflow-x: hidden;
                 width: 100%;
             }
 
-            /* 2. Stack the Navigation Menu */
             nav {
                 flex-direction: column;
                 gap: 1rem;
@@ -247,11 +244,10 @@
                 gap: 1rem;
             }
             .nav-links a {
-                margin-left: 0; /* This fixes the giant empty space! */
+                margin-left: 0; 
                 display: block;
             }
 
-            /* 3. Resize Hero Text for Phone Screens */
             .hero {
                 padding: 4rem 5% 3rem 5%;
             }
@@ -259,15 +255,13 @@
                 font-size: 2.2rem;
             }
 
-            /* 4. Stack the Timeline */
             .timeline {
                 flex-direction: column;
                 gap: 1rem;
             }
 
-            /* 5. Force Cards into a Single Column */
             .container {
-                grid-template-columns: 1fr; /* Forces 1 vertical column */
+                grid-template-columns: 1fr; 
                 gap: 2rem;
                 margin: 3rem auto;
             }
@@ -324,7 +318,6 @@
             color: var(--regal-navy);
         }
 
-        /* Mobile adjustment for Messenger float */
         @media (max-width: 768px) {
             .messenger-float {
                 bottom: 20px;
@@ -338,7 +331,8 @@
 <body>
 
     <nav>
-        <div class="logo">JPSME <span>COMELEC</span></div>
+        <!-- ADDED ID and styling to disable text highlighting when tapping -->
+        <div class="logo" id="comelec-logo" style="cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;">JPSME <span>COMELEC</span></div>
         <div class="nav-links">
             <a href="index.html">The Portal</a>
             <a href="guidelines.html">Electoral Guidelines</a>
@@ -461,7 +455,7 @@
         let adminPin = "2026"; 
         let activeCharts = {}; 
 
-        // Keystroke listener for the Easter Egg
+        // 1. DESKTOP LISTENER: Keystroke listener for the Easter Egg
         document.addEventListener('keydown', function(e) {
             if (e.target.tagName.toLowerCase() === 'input') return;
 
@@ -478,6 +472,27 @@
                 } else if (enteredPin !== null) {
                     alert("ACCESS DENIED. Invalid clearance code.");
                 }
+            }
+        });
+
+        // 2. MOBILE LISTENER: Tap the COMELEC Logo 5 times
+        let tapCount = 0;
+        let tapTimer;
+        document.getElementById('comelec-logo').addEventListener('click', function() {
+            tapCount++;
+            clearTimeout(tapTimer);
+            
+            if (tapCount === 5) {
+                tapCount = 0; // Reset immediately
+                let enteredPin = prompt("SECURE OVERRIDE INITIATED.\n\nEnter COMELEC Authorization PIN:");
+                if (enteredPin === adminPin) {
+                    openAdminDashboard();
+                } else if (enteredPin !== null) {
+                    alert("ACCESS DENIED. Invalid clearance code.");
+                }
+            } else {
+                // If they stop tapping for 3 seconds, reset the count
+                tapTimer = setTimeout(() => { tapCount = 0; }, 3000);
             }
         });
 
@@ -531,7 +546,6 @@
                 return acc;
             }, {});
 
-            // OPTIMIZATION: Build the entire HTML layout in memory first
             let fullHTML = "";
             const palette = ['#D4AF37', '#e74c3c', '#8aa1d6', '#b4c1e0', '#FFFFFF'];
 
@@ -539,10 +553,8 @@
                 const candidates = groupedData[position].sort((a, b) => b.votes - a.votes);
                 const totalVotes = candidates.reduce((sum, c) => sum + c.votes, 0);
                 
-                // Create a clean ID for the canvas
                 let safePosId = position.replace(/[^a-zA-Z0-9]/g, '-'); 
                 
-                // 1. Build the Card Header
                 let cardHTML = `
                     <div class="position-card">
                         <div class="position-header">
@@ -551,9 +563,7 @@
                         </div>
                         <div class="raw-counts-grid">`;
                 
-               // 2. Build the Raw Text Numbers (Now with Percentages!)
                 candidates.forEach((c) => {
-                    // Calculate percentage safely (prevents dividing by zero before votes come in)
                     let pct = totalVotes === 0 ? "0.0" : ((c.votes / totalVotes) * 100).toFixed(1);
                     
                     cardHTML += `
@@ -566,7 +576,6 @@
                         </div>`;
                 });
 
-                // 3. Attach the empty Canvas container for the Graph
                 cardHTML += `
                         </div>
                         <div class="chart-container">
@@ -577,35 +586,28 @@
                 fullHTML += cardHTML;
             }
 
-            // OPTIMIZATION: Inject the HTML into the browser exactly once (Cures the lag)
             container.innerHTML = fullHTML;
 
-            // OPTIMIZATION: Draw the charts after the HTML is safely on the page
             for (const position in groupedData) {
                 const candidates = groupedData[position].sort((a, b) => b.votes - a.votes);
                 let safePosId = position.replace(/[^a-zA-Z0-9]/g, '-');
                 const ctxId = `chart-${safePosId}`;
                 const ctx = document.getElementById(ctxId).getContext('2d');
 
-                // Prepare Chart Data
-               // Prepare Chart Data
                 let labels = candidates.map(c => c.candidate);
                 let chartData = candidates.map(c => c.votes);
                 
-                // Smart Color Coding for Candidates vs Abstain
                 let bgColors = candidates.map(c => {
                     let text = c.candidate.toLowerCase();
-                    if (text.includes('abstain')) return '#8aa1d6'; // Muted Blue for Abstain
-                    if (text.includes('vacant')) return '#1C2D5A';  // Navy for Vacant
-                    return '#D4AF37'; // Regal Gold for all Candidate Names
+                    if (text.includes('abstain')) return '#8aa1d6'; 
+                    if (text.includes('vacant')) return '#1C2D5A';  
+                    return '#D4AF37'; 
                 });
 
-                // Destroy old charts from memory to prevent overlapping
                 if (activeCharts[position]) {
                     activeCharts[position].destroy();
                 }
 
-                // Render New Chart
                 Chart.defaults.color = '#b4c1e0';
                 Chart.defaults.font.family = "'Lato', sans-serif";
 
@@ -621,7 +623,7 @@
                         }]
                     },
                     options: {
-                        indexAxis: 'y', // Horizontal bars
+                        indexAxis: 'y', 
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
