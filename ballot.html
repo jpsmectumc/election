@@ -286,9 +286,24 @@
 
             btn.innerText = "ENCRYPTING AND TRANSMITTING..."; btn.disabled = true; errorBox.innerText = "";
 
+            // FETCH VOTER IP ADDRESS WITH A 2-SECOND TIMEOUT TO PREVENT SYSTEM LAG
+            let voterIP = "Unknown";
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 2000); 
+
+                const ipResponse = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
+                const ipData = await ipResponse.json();
+                voterIP = ipData.ip;
+                clearTimeout(timeoutId);
+            } catch (e) {
+                console.log("IP resolution bypassed or timed out to prevent lag.");
+            }
+
             const payload = {
                 action: "vote",
                 dbRow: validatedDbRow,
+                ipAddress: voterIP, // <--- THIS IS THE NEW LINE THAT SENDS THE IP TO YOUR SCRIPT
                 president: pres.value,
                 vpInternal: vpInt.value,
                 vpExternal: vpExt.value,
@@ -307,6 +322,7 @@
             };
 
             try {
+                // ... (Leave the rest of the existing fetch code below this exactly as it is) ...
                 const response = await fetch(scriptURL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
