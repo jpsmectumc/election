@@ -114,6 +114,33 @@
             border-top: 1px solid rgba(212, 175, 55, 0.1);
             padding-top: 1rem;
         }
+        
+        /* --- DOWNLOAD BUTTON STYLES --- */
+        .btn-download {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            color: var(--gold-accent);
+            border: 1px solid var(--gold-accent);
+            padding: 0.6rem;
+            margin-top: 1.5rem;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            text-align: center;
+            position: relative;
+            z-index: 2; /* Keeps it clickable above the inner gold border */
+        }
+        .btn-download:hover {
+            background-color: var(--gold-accent);
+            color: var(--regal-navy);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -156,6 +183,19 @@
         Chart.defaults.color = '#b4c1e0';
         Chart.defaults.font.family = "'Lato', sans-serif";
 
+        // Plugin to ensure downloaded images have the dark navy background instead of being transparent
+        const customCanvasBackgroundColor = {
+            id: 'customCanvasBackgroundColor',
+            beforeDraw: (chart, args, options) => {
+                const {ctx} = chart;
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = options.color || '#1C2D5A';
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
+            }
+        };
+
         for (const position in groupedData) {
             const candidates = groupedData[position];
             const totalVotes = candidates.reduce((sum, c) => sum + c.votes, 0);
@@ -186,6 +226,9 @@
                     <div class="chart-container">
                         <canvas id="canvas-${safeId}"></canvas>
                     </div>
+                    <button class="btn-download" onclick="downloadChart('canvas-${safeId}', '${position}')">
+                        ⬇ Download ${position} Chart
+                    </button>
                 </div>`;
 
             container.innerHTML += cardHTML;
@@ -213,15 +256,33 @@
                         indexAxis: 'y',
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
+                        plugins: { 
+                            legend: { display: false },
+                            customCanvasBackgroundColor: { color: '#1C2D5A' } // Applies the navy background
+                        },
                         scales: {
                             x: { beginAtZero: true, grid: { color: 'rgba(212, 175, 55, 0.1)' } },
                             y: { grid: { display: false } }
                         }
-                    }
+                    },
+                    plugins: [customCanvasBackgroundColor]
                 });
             }
         }, 50);
+
+        // Download Function
+        function downloadChart(canvasId, positionName) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            
+            // Format the file name cleanly (e.g., JPSME_Result_VP_Internal.png)
+            const cleanName = positionName.replace(/\s+/g, '_');
+            link.download = `JPSME_Result_${cleanName}.png`;
+            
+            // Convert canvas to image URL and trigger download
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        }
     </script>
 </body>
 </html>
