@@ -6,7 +6,6 @@
     <title>JPSME COMELEC | Official Certified Results</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- ADDED: HTML2CANVAS library to capture complete HTML elements as images -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -24,64 +23,117 @@
             background-image: radial-gradient(circle at 50% 0%, #15234b 0%, var(--regal-navy) 70%);
             padding: 2rem 5%;
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        /* --- TOP NAVIGATION --- */
+        .top-nav {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        .btn-home {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--gold-light);
+            border: 1px solid var(--gold-accent);
+            padding: 0.6rem 1.5rem;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+        .btn-home:hover {
+            background-color: var(--gold-accent);
+            color: var(--regal-navy);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        /* Master Container for the Screenshot */
+        #master-report {
+            background-color: var(--regal-navy);
+            background-image: radial-gradient(circle at 50% 0%, #15234b 0%, var(--regal-navy) 70%);
+            padding: 3rem;
+            max-width: 1200px;
+            width: 100%;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            margin-bottom: 2rem;
+            box-sizing: border-box;
+        }
+
         .dashboard-header {
             text-align: center;
-            margin-bottom: 3rem;
-            border-bottom: 3px double var(--gold-accent);
+            margin-bottom: 2rem;
+            border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
             padding-bottom: 2rem;
         }
         .dashboard-header h1 {
             font-family: 'Playfair Display', serif;
             color: var(--white);
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .dashboard-header p {
             color: var(--gold-accent);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.9rem;
+            letter-spacing: 3px;
+            font-size: 1rem;
+            margin-bottom: 2rem;
         }
+
+        /* GLOBAL TURN OUT BOX */
+        .global-turnout {
+            display: inline-block;
+            background-color: var(--royal-blue);
+            border: 1px solid var(--gold-accent);
+            padding: 1rem 3rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--white);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .global-turnout span {
+            color: var(--gold-accent);
+            font-size: 2rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
         .tally-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            margin-top: 2rem;
         }
         .position-card {
-            background: var(--royal-blue);
+            background: rgba(28, 45, 90, 0.6); 
             border: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 2.5rem 2rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            position: relative;
-        }
-        .position-card::after {
-            content: '';
-            position: absolute;
-            top: 10px; left: 10px; right: 10px; bottom: 10px;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            pointer-events: none;
+            padding: 2rem;
         }
         .position-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
             border-bottom: 1px dashed var(--gold-accent);
             padding-bottom: 0.8rem;
             margin-bottom: 1.5rem;
+            text-align: center;
         }
         .position-card h3 {
             font-family: 'Playfair Display', serif;
-            color: var(--white);
-            font-size: 1.5rem;
+            color: var(--gold-accent);
+            font-size: 1.4rem;
             text-transform: uppercase;
             margin: 0;
-        }
-        .total-votes {
-            color: #b4c1e0;
-            font-size: 0.85rem;
             letter-spacing: 1px;
         }
         .raw-counts-grid {
@@ -95,8 +147,8 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .raw-name {
-            color: #b4c1e0;
-            font-size: 1rem;
+            color: var(--white);
+            font-size: 1.05rem;
         }
         .raw-vote {
             color: var(--gold-accent);
@@ -117,41 +169,67 @@
             padding-top: 1rem;
         }
         
-        .btn-download {
-            display: block;
-            width: 100%;
-            background-color: transparent;
-            color: var(--gold-accent);
-            border: 1px solid var(--gold-accent);
-            padding: 0.6rem;
-            margin-top: 1.5rem;
+        /* Master Download Button */
+        .btn-master-download {
+            background-color: var(--gold-accent);
+            color: var(--regal-navy);
+            border: none;
+            padding: 1.2rem 3rem;
             font-family: 'Lato', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            border-radius: 4px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+            margin-bottom: 2rem;
         }
-        .btn-download:hover {
-            background-color: var(--gold-accent);
-            color: var(--regal-navy);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        .btn-master-download:hover {
+            background-color: #e6c855;
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Fix for Mobile */
+        @media (max-width: 768px) {
+            #master-report { padding: 1.5rem; }
+            .tally-grid { grid-template-columns: 1fr; }
+            .dashboard-header h1 { font-size: 2rem; }
+            .global-turnout { padding: 0.8rem 1.5rem; font-size: 1.2rem; }
+            .global-turnout span { font-size: 1.5rem; }
+            .btn-master-download { width: 100%; padding: 1rem; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-header">
-        <h1>Official Canvassed Election Returns</h1>
-        <p>Junior Philippine Society of Mechanical Engineers</p>
+    <!-- NAVIGATION BAR (Will not be included in the screenshot) -->
+    <div class="top-nav">
+        <a href="index.html" class="btn-home">← Return Home</a>
     </div>
 
-    <div class="tally-grid" id="dashboard-target"></div>
+    <!-- WRAPPER FOR THE ENTIRE IMAGE EXPORT -->
+    <div id="master-report">
+        
+        <div class="dashboard-header">
+            <h1>Official Canvassed Election Returns</h1>
+            <p>Junior Philippine Society of Mechanical Engineers</p>
+            
+            <!-- CENTRALIZED TOTAL BALLOTS -->
+            <div class="global-turnout" id="global-turnout-box">
+                Total Valid Ballots: <span id="global-total-number">0</span>
+            </div>
+        </div>
+
+        <!-- GRAPHS GRID -->
+        <div class="tally-grid" id="dashboard-target"></div>
+        
+    </div>
+
+    <!-- MASTER DOWNLOAD BUTTON -->
+    <button class="btn-master-download" onclick="downloadMasterReport()">
+        📸 Download Complete Election Infographic
+    </button>
 
     <script>
         const electionData = [
@@ -173,6 +251,12 @@
             { position: "SNL Director", candidate: "Abstain", votes: 21 }
         ];
 
+        const globalTotal = electionData
+            .filter(data => data.position === "President")
+            .reduce((sum, c) => sum + c.votes, 0);
+        
+        document.getElementById('global-total-number').innerText = globalTotal;
+
         const groupedData = electionData.reduce((acc, curr) => {
             if (!acc[curr.position]) acc[curr.position] = [];
             acc[curr.position].push(curr);
@@ -185,20 +269,17 @@
 
         for (const position in groupedData) {
             const candidates = groupedData[position];
-            const totalVotes = candidates.reduce((sum, c) => sum + c.votes, 0);
             const safeId = position.replace(/[^a-zA-Z0-9]/g, '-');
 
-            // OPTIMIZATION: Wrapped the container with a unique ID card-${safeId} so html2canvas can target it
             let cardHTML = `
-                <div class="position-card" id="card-${safeId}">
+                <div class="position-card">
                     <div class="position-header">
                         <h3>${position}</h3>
-                        <span class="total-votes">Total Ballots: ${totalVotes}</span>
                     </div>
                     <div class="raw-counts-grid">`;
 
             candidates.forEach(c => {
-                let pct = ((c.votes / totalVotes) * 100).toFixed(1);
+                let pct = ((c.votes / globalTotal) * 100).toFixed(1);
                 cardHTML += `
                     <div class="raw-row">
                         <span class="raw-name">${c.candidate}</span>
@@ -214,10 +295,6 @@
                     <div class="chart-container">
                         <canvas id="canvas-${safeId}"></canvas>
                     </div>
-                    <!-- Updated download click handler -->
-                    <button class="btn-download" data-html2canvas-ignore="true" onclick="downloadCompleteCard('card-${safeId}', '${position}')">
-                        ⬇ Download Complete Return
-                    </button>
                 </div>`;
 
             container.innerHTML += cardHTML;
@@ -254,23 +331,28 @@
             }
         }, 50);
 
-        // ADVANCED: Snap complete component view with layout elements intact
-        function downloadCompleteCard(cardId, positionName) {
-            const cardElement = document.getElementById(cardId);
+        function downloadMasterReport() {
+            const masterElement = document.getElementById('master-report');
+            const button = document.querySelector('.btn-master-download');
             
-            // Configuration for high quality, rendering exact CSS styles
-            html2canvas(cardElement, {
-                backgroundColor: "#1C2D5A", // Match the royal blue container color background
-                scale: 2,                  // Upscale to double resolution for razor-sharp text
+            button.innerText = "Processing Infographic...";
+            button.style.backgroundColor = "#e74c3c";
+            button.style.color = "#fff";
+            
+            html2canvas(masterElement, {
+                backgroundColor: "#0A1128", 
+                scale: 2, 
                 logging: false,
                 useCORS: true
             }).then(canvas => {
                 const link = document.createElement('a');
-                const cleanName = positionName.replace(/\s+/g, '_');
-                
-                link.download = `JPSME_Official_Return_${cleanName}.png`;
+                link.download = `JPSME_Official_Election_Report_2026.png`;
                 link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
+
+                button.innerText = "📸 Download Complete Election Infographic";
+                button.style.backgroundColor = "var(--gold-accent)";
+                button.style.color = "var(--regal-navy)";
             });
         }
     </script>
