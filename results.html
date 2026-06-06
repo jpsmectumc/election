@@ -6,6 +6,8 @@
     <title>JPSME COMELEC | Official Certified Results</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- ADDED: HTML2CANVAS library to capture complete HTML elements as images -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --regal-navy: #0A1128;
@@ -115,7 +117,6 @@
             padding-top: 1rem;
         }
         
-        /* --- DOWNLOAD BUTTON STYLES --- */
         .btn-download {
             display: block;
             width: 100%;
@@ -134,7 +135,7 @@
             border-radius: 4px;
             text-align: center;
             position: relative;
-            z-index: 2; /* Keeps it clickable above the inner gold border */
+            z-index: 2;
         }
         .btn-download:hover {
             background-color: var(--gold-accent);
@@ -153,7 +154,6 @@
     <div class="tally-grid" id="dashboard-target"></div>
 
     <script>
-        // Official verified data parsed from the sheets
         const electionData = [
             { position: "President", candidate: "Godprey F. Torres", votes: 78 },
             { position: "President", candidate: "Abstain", votes: 37 },
@@ -169,8 +169,8 @@
             { position: "PIO - Internal", candidate: "Abstain", votes: 20 },
             { position: "Media Director", candidate: "Anton Xchyler V. Espallaga", votes: 75 },
             { position: "Media Director", candidate: "Abstain", votes: 40 },
-            { position: "Sponsorship and Linkages Director", candidate: "Lei Garvin T. Saycon", votes: 94 },
-            { position: "Sponsorship and Linkages Director", candidate: "Abstain", votes: 21 }
+            { position: "SNL Director", candidate: "Lei Garvin T. Saycon", votes: 94 },
+            { position: "SNL Director", candidate: "Abstain", votes: 21 }
         ];
 
         const groupedData = electionData.reduce((acc, curr) => {
@@ -183,26 +183,14 @@
         Chart.defaults.color = '#b4c1e0';
         Chart.defaults.font.family = "'Lato', sans-serif";
 
-        // Plugin to ensure downloaded images have the dark navy background instead of being transparent
-        const customCanvasBackgroundColor = {
-            id: 'customCanvasBackgroundColor',
-            beforeDraw: (chart, args, options) => {
-                const {ctx} = chart;
-                ctx.save();
-                ctx.globalCompositeOperation = 'destination-over';
-                ctx.fillStyle = options.color || '#1C2D5A';
-                ctx.fillRect(0, 0, chart.width, chart.height);
-                ctx.restore();
-            }
-        };
-
         for (const position in groupedData) {
             const candidates = groupedData[position];
             const totalVotes = candidates.reduce((sum, c) => sum + c.votes, 0);
             const safeId = position.replace(/[^a-zA-Z0-9]/g, '-');
 
+            // OPTIMIZATION: Wrapped the container with a unique ID card-${safeId} so html2canvas can target it
             let cardHTML = `
-                <div class="position-card">
+                <div class="position-card" id="card-${safeId}">
                     <div class="position-header">
                         <h3>${position}</h3>
                         <span class="total-votes">Total Ballots: ${totalVotes}</span>
@@ -226,15 +214,15 @@
                     <div class="chart-container">
                         <canvas id="canvas-${safeId}"></canvas>
                     </div>
-                    <button class="btn-download" onclick="downloadChart('canvas-${safeId}', '${position}')">
-                        ⬇ Download ${position} Chart
+                    <!-- Updated download click handler -->
+                    <button class="btn-download" data-html2canvas-ignore="true" onclick="downloadCompleteCard('card-${safeId}', '${position}')">
+                        ⬇ Download Complete Return
                     </button>
                 </div>`;
 
             container.innerHTML += cardHTML;
         }
 
-        // Render graphical chart objects onto the canvases
         setTimeout(() => {
             for (const position in groupedData) {
                 const candidates = groupedData[position];
@@ -256,32 +244,34 @@
                         indexAxis: 'y',
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { 
-                            legend: { display: false },
-                            customCanvasBackgroundColor: { color: '#1C2D5A' } // Applies the navy background
-                        },
+                        plugins: { legend: { display: false } },
                         scales: {
                             x: { beginAtZero: true, grid: { color: 'rgba(212, 175, 55, 0.1)' } },
                             y: { grid: { display: false } }
                         }
-                    },
-                    plugins: [customCanvasBackgroundColor]
+                    }
                 });
             }
         }, 50);
 
-        // Download Function
-        function downloadChart(canvasId, positionName) {
-            const canvas = document.getElementById(canvasId);
-            const link = document.createElement('a');
+        // ADVANCED: Snap complete component view with layout elements intact
+        function downloadCompleteCard(cardId, positionName) {
+            const cardElement = document.getElementById(cardId);
             
-            // Format the file name cleanly (e.g., JPSME_Result_VP_Internal.png)
-            const cleanName = positionName.replace(/\s+/g, '_');
-            link.download = `JPSME_Result_${cleanName}.png`;
-            
-            // Convert canvas to image URL and trigger download
-            link.href = canvas.toDataURL('image/png', 1.0);
-            link.click();
+            // Configuration for high quality, rendering exact CSS styles
+            html2canvas(cardElement, {
+                backgroundColor: "#1C2D5A", // Match the royal blue container color background
+                scale: 2,                  // Upscale to double resolution for razor-sharp text
+                logging: false,
+                useCORS: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                const cleanName = positionName.replace(/\s+/g, '_');
+                
+                link.download = `JPSME_Official_Return_${cleanName}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+            });
         }
     </script>
 </body>
