@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPSME COMELEC | Official Certified Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --regal-navy: #0A1128;
+            --royal-blue: #1C2D5A;
+            --gold-accent: #D4AF37;
+            --gold-light: #F3E5AB;
+            --white: #FFFFFF;
+            --off-white: #F8F9FA;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--regal-navy);
+            color: var(--off-white);
+            background-image: radial-gradient(circle at 50% 0%, #15234b 0%, var(--regal-navy) 70%);
+            padding: 2rem 5%;
+            margin: 0;
+        }
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 3px double var(--gold-accent);
+            padding-bottom: 2rem;
+        }
+        .dashboard-header h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .dashboard-header p {
+            color: var(--gold-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+        .tally-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .position-card {
+            background: var(--royal-blue);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 2.5rem 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            position: relative;
+        }
+        .position-card::after {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            pointer-events: none;
+        }
+        .position-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1px dashed var(--gold-accent);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        .position-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--white);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .total-votes {
+            color: #b4c1e0;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        .raw-counts-grid {
+            margin-bottom: 1.5rem;
+        }
+        .raw-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .raw-name {
+            color: #b4c1e0;
+            font-size: 1rem;
+        }
+        .raw-vote {
+            color: var(--gold-accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .raw-pct {
+            color: #8aa1d6;
+            font-size: 0.95rem;
+            width: 50px;
+            text-align: right;
+        }
+        .chart-container {
+            position: relative;
+            height: 120px;
+            width: 100%;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            padding-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-header">
+        <h1>Official Canvassed Election Returns</h1>
+        <p>Junior Philippine Society of Mechanical Engineers</p>
+    </div>
+
+    <div class="tally-grid" id="dashboard-target"></div>
+
+    <script>
+        // Official verified data parsed from the sheets
+        const electionData = [
+            { position: "President", candidate: "Godprey F. Torres", votes: 78 },
+            { position: "President", candidate: "Abstain", votes: 37 },
+            { position: "VP Internal", candidate: "Micha Paula F. Pongot", votes: 97 },
+            { position: "VP Internal", candidate: "Abstain", votes: 18 },
+            { position: "Secretary", candidate: "Genvelle L. Pesalbon", votes: 95 },
+            { position: "Secretary", candidate: "Abstain", votes: 20 },
+            { position: "Asst. Secretary", candidate: "Jamila Jade Suan", votes: 90 },
+            { position: "Asst. Secretary", candidate: "Abstain", votes: 25 },
+            { position: "Auditor", candidate: "Rey Jerald P. Bacalso", votes: 99 },
+            { position: "Auditor", candidate: "Abstain", votes: 16 },
+            { position: "PIO - Internal", candidate: "Clent Axel M. Jugalbot", votes: 95 },
+            { position: "PIO - Internal", candidate: "Abstain", votes: 20 },
+            { position: "Media Director", candidate: "Anton Xchyler V. Espallaga", votes: 75 },
+            { position: "Media Director", candidate: "Abstain", votes: 40 },
+            { position: "SNL Director", candidate: "Lei Garvin T. Saycon", votes: 94 },
+            { position: "SNL Director", candidate: "Abstain", votes: 21 }
+        ];
+
+        const groupedData = electionData.reduce((acc, curr) => {
+            if (!acc[curr.position]) acc[curr.position] = [];
+            acc[curr.position].push(curr);
+            return acc;
+        }, {});
+
+        const container = document.getElementById('dashboard-target');
+        Chart.defaults.color = '#b4c1e0';
+        Chart.defaults.font.family = "'Lato', sans-serif";
+
+        for (const position in groupedData) {
+            const candidates = groupedData[position];
+            const totalVotes = candidates.reduce((sum, c) => sum + c.votes, 0);
+            const safeId = position.replace(/[^a-zA-Z0-9]/g, '-');
+
+            let cardHTML = `
+                <div class="position-card">
+                    <div class="position-header">
+                        <h3>${position}</h3>
+                        <span class="total-votes">Total Ballots: ${totalVotes}</span>
+                    </div>
+                    <div class="raw-counts-grid">`;
+
+            candidates.forEach(c => {
+                let pct = ((c.votes / totalVotes) * 100).toFixed(1);
+                cardHTML += `
+                    <div class="raw-row">
+                        <span class="raw-name">${c.candidate}</span>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span class="raw-vote">${c.votes}</span>
+                            <span class="raw-pct">${pct}%</span>
+                        </div>
+                    </div>`;
+            });
+
+            cardHTML += `
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="canvas-${safeId}"></canvas>
+                    </div>
+                </div>`;
+
+            container.innerHTML += cardHTML;
+        }
+
+        // Render graphical chart objects onto the canvases
+        setTimeout(() => {
+            for (const position in groupedData) {
+                const candidates = groupedData[position];
+                const safeId = position.replace(/[^a-zA-Z0-9]/g, '-');
+                const ctx = document.getElementById(`canvas-${safeId}`).getContext('2d');
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: candidates.map(c => c.candidate),
+                        datasets: [{
+                            data: candidates.map(c => c.votes),
+                            backgroundColor: candidates.map(c => c.candidate === 'Abstain' ? '#8aa1d6' : '#D4AF37'),
+                            borderRadius: 4,
+                            borderSkipped: false
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { beginAtZero: true, grid: { color: 'rgba(212, 175, 55, 0.1)' } },
+                            y: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+        }, 50);
+    </script>
+</body>
+</html>
